@@ -16,12 +16,15 @@ import router from '../router';
 import { useFirebaseAuth } from 'vuefire';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { ElMessage } from 'element-plus';
+import { useUserStore } from '../stores/userStore';
 
 const error = ref('');
 const auth = useFirebaseAuth();
 const email = ref('');
 const id = ref('');
 const password = ref('');
+
+const userStore = useUserStore();
 
 async function handleLogin() {
     try {
@@ -39,6 +42,7 @@ async function handleLogin() {
 
         if (response.data.isAdmin) {
             ElMessage.success('Logged in successfully!');
+            userStore.setToken(idToken);
             router.push('/home');
         } else {
             await auth.signOut();

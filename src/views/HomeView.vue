@@ -1,6 +1,6 @@
 <template>
     <ParkingTable :parkingApplications="parkingApplications" />
-    <LostItemsTable :lostItems="lostItems" />
+    <LostItemsTable />
 </template>
 
 <script setup>
@@ -10,23 +10,22 @@ import { fetchData } from '../controller';
 import router from '../router';
 import { useFirebaseAuth } from 'vuefire';
 import ParkingTable from '../components/ParkingTable.vue';
-import LostItemsTable from '../components/lostItemsTable.vue';
+import LostItemsTable from '../components/LostItemsTable.vue';
+import { useUserStore } from '../stores/userStore';
 
 const auth = useFirebaseAuth();
 
-const idToken = ref('');
 const parkingApplications = ref([]);
-const lostItems = ref([]);
+
+const userStore = useUserStore();
 
 onMounted(async () => {
     if (!auth.currentUser) {
         router.push('/login');
     }
-
-    idToken.value = await auth.currentUser.getIdToken()
-
-    parkingApplications.value = await fetchData('/admin/parking/applications', idToken.value)
-    lostItems.value = await fetchData('/lost/items')
+    else {
+    parkingApplications.value = await fetchData('/admin/parking/applications', userStore.token)
+    }
 });
 
 
