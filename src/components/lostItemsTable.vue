@@ -32,41 +32,41 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import { fetchData } from '../controller';
-import AddLostItem from './AddLostItem.vue';
-import ClaimLostItem from './ClaimLostItem.vue';
-import { useItemStore } from '../stores/itemStore';
+import { onMounted, ref } from 'vue'
+import { fetchData } from '../controller'
+import AddLostItem from './AddLostItem.vue'
+import ClaimLostItem from './ClaimLostItem.vue'
+import { useItemStore } from '../stores/itemStore'
 
-const lostItems = ref([]);
+const lostItems = ref([])
 
 onMounted(async () => {
-    await fetchItems();
+    await fetchItems()
     itemStore.setCategories((await fetchData('/lost/categories')).data)
     itemStore.setLocations((await fetchData('/lost/locations')).data)
 })
 
-const itemStore = useItemStore();
+const itemStore = useItemStore()
 
 async function fetchItems() {
     lostItems.value = await fetchData('/lost/items')
 }
 
 function toggleAdding() {
-    itemStore.setIsAdding(!itemStore.isAdding);
+    itemStore.setIsAdding(!itemStore.isAdding)
 }
 
 function toggleClaim(id) {
-    itemStore.setItemId(id);
-    itemStore.setIsClaiming(!itemStore.isClaiming);
+    itemStore.setItemId(id)
+    itemStore.setIsClaiming(!itemStore.isClaiming)
 }
 
 function formatTimestamp(timestamp) {
     if (timestamp) {
-        const date = new Date(timestamp._seconds * 1000 + timestamp._nanoseconds / 1000000);
-        return date.toLocaleString();
+        const date = new Date(timestamp._seconds * 1000 + timestamp._nanoseconds / 1000000)
+        return date.toLocaleString()
     }
-    return "";
+    return ""
 }
 
 </script>

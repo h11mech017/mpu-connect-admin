@@ -9,7 +9,6 @@
                 </template>
             </el-table-column>
             <el-table-column prop="Name" label="Name" width="180" />
-            <el-table-column prop="Mobile Phone" label="Phone" width="100" />
             <el-table-column prop="Motorcycle Plate No" label="Motorcycle Plate No." width="180" />
             <el-table-column prop="Applied At" label="Applied At" width="180" sortable>
                 <template #default="scope">
@@ -30,36 +29,44 @@
 </template>
 
 <script setup>
-import { fetchData, putData } from '../controller';
-import { ElMessage } from 'element-plus';
+import { onMounted } from 'vue'
+import { ref } from 'vue'
+import { fetchData, putData } from '../controller'
+import { ElMessage } from 'element-plus'
+import { useUserStore } from '../stores/userStore'
 
-const props = defineProps({
-    parkingApplications: Object
+const parkingApplications = ref([])
+
+const userStore = useUserStore();
+
+onMounted(async () => {
+    parkingApplications.value = await fetchData('/admin/parking/applications', userStore.token)
 })
+
 
 function formatTimestamp(timestamp) {
     if (timestamp) {
-        const date = new Date(timestamp._seconds * 1000 + timestamp._nanoseconds / 1000000);
-        return date.toLocaleString();
+        const date = new Date(timestamp._seconds * 1000 + timestamp._nanoseconds / 1000000)
+        return date.toLocaleString()
     }
     return "";
 }
 
 async function approveParkingApplication(id) {
-    const response = await putData('/admin/parking/application/update', idToken.value, id, 'Valid')
+    const response = await putData('/admin/parking/application/update', userStore.token, id, 'Valid')
 
     if (response.status === 200) {
         ElMessage.success('Parking application approved')
-        parkingApplications.value = await fetchData('/admin/parking/applications', idToken.value)
+        parkingApplications.value = await fetchData('/admin/parking/applications', userStore.token)
     }
 }
 
 async function rejectParkingApplication(id) {
-    const response = await putData('/admin/parking/application/update', idToken.value, id, 'Invalid')
+    const response = await putData('/admin/parking/application/update', userStore.token, id, 'Invalid')
 
     if (response.status === 200) {
         ElMessage.success('Parking application rejected')
-        parkingApplications.value = await fetchData('/admin/parking/applications', idToken.value)
+        parkingApplications.value = await fetchData('/admin/parking/applications', userStore.token)
     }
 }
 </script>

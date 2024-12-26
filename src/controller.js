@@ -5,17 +5,30 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL_TEST
 })
 
-export async function checkAdmin(token) {
+export async function checkRole(token) {
     try {
-        const response = await api.get('/admin/check', {
+        const response = await api.get('/admin/role/check', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         return response
     } catch (error) {
-        ElMessage.error('Error checking admin status')
+        ElMessage.error('Error checking user role status')
         return false
+    }
+}
+
+export async function getUserRole(token) {
+    try {
+        const response = await api.get('/user/role', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response
+    } catch (error) {
+        ElMessage.error('Error fetching user role')
     }
 }
 

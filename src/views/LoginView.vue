@@ -10,21 +10,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { checkAdmin } from '../controller';
-import router from '../router';
-import { useFirebaseAuth } from 'vuefire';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { ElMessage } from 'element-plus';
-import { useUserStore } from '../stores/userStore';
+import { ref } from 'vue'
+import { checkRole } from '../controller'
+import router from '../router'
+import { useFirebaseAuth } from 'vuefire'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { ElMessage } from 'element-plus'
+import { useUserStore } from '../stores/userStore'
 
-const error = ref('');
-const auth = useFirebaseAuth();
-const email = ref('');
-const id = ref('');
-const password = ref('');
+const error = ref('')
+const auth = useFirebaseAuth()
+const email = ref('')
+const id = ref('')
+const password = ref('')
 
-const userStore = useUserStore();
+const userStore = useUserStore()
 
 async function handleLogin() {
     try {
@@ -38,21 +38,22 @@ async function handleLogin() {
 
         console.log(idToken)
 
-        const response = await checkAdmin(idToken)
+        const response = await checkRole(idToken)
 
-        if (response.data.isAdmin) {
-            ElMessage.success('Logged in successfully!');
-            userStore.setToken(idToken);
-            router.push('/home');
+        if (response.data.isValid) {
+            ElMessage.success('Logged in successfully!')
+            userStore.setToken(idToken)
+            console.log(response.data)
+            router.push('/home')
         } else {
-            await auth.signOut();
-            error.value = 'You are not an admin';
+            await auth.signOut()
+            error.value = 'You are not an admin'
 
-            ElMessage.error(error.value);
+            ElMessage.error(error.value)
         }
     } catch (error) {
-        error.value = error.message;
-        ElMessage.error(error.value);
+        error.value = error.message
+        ElMessage.error(error.value)
     }
 };
 
