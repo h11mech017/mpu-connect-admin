@@ -27,8 +27,8 @@
             </el-table-column>
         </el-table>
     </div>
-    <AddLostItem @itemAdded="fetchItems"/>
-    <ClaimLostItem @itemClaimed="fetchItems"/>
+    <AddLostItem @itemAdded="fetchItems" />
+    <ClaimLostItem @itemClaimed="fetchItems" />
 </template>
 
 <script setup>

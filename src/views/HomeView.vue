@@ -1,11 +1,11 @@
 <template>
   <div v-if="!isLoading">
     <div v-if="userStore.role === 'Admin'">
-      <ParkingTable :idToken="userStore.token" />
+      <ParkingTable />
       <LostItemsTable />
     </div>
-    <div v-else>
-      <h1>Unauthorized</h1>
+    <div v-else-if="userStore.role === 'Teacher'">
+      <CoursesTable />
     </div>
   </div>
   <div v-else>
@@ -20,6 +20,7 @@ import router from '../router'
 import { useFirebaseAuth } from 'vuefire'
 import ParkingTable from '../components/ParkingTable.vue'
 import LostItemsTable from '../components/LostItemsTable.vue'
+import CoursesTable from '../components/CoursesTable.vue'
 import { useUserStore } from '../stores/userStore'
 import { getUserRole } from '../controller'
 

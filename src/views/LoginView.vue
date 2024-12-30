@@ -43,7 +43,6 @@ async function handleLogin() {
         if (response.data.isValid) {
             ElMessage.success('Logged in successfully!')
             userStore.setToken(idToken)
-            console.log(response.data)
             router.push('/home')
         } else {
             await auth.signOut()

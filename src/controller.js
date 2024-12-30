@@ -58,6 +58,20 @@ export async function postData(endpoint, token, data) {
     }
 }
 
+export async function uploadFile(endpoint, token, formData) {
+    try {
+        const response = await api.post(endpoint, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-type': 'multipart/form-data'
+            },
+        })
+        return response
+    } catch (error) {
+        ElMessage.error('Error posting data')
+    }
+}
+
 export async function putData(endpoint, token, id, data) {
     try {
         const response = await api.put(endpoint, {id, data}, {
