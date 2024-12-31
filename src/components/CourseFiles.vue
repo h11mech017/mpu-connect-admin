@@ -26,6 +26,7 @@ import { ElTree, ElButton, ElMessage } from 'element-plus'
 import { Upload } from '@element-plus/icons-vue'
 import router from '../router'
 
+const courseId = router.currentRoute.value.params.courseId
 const courseFiles = ref([])
 const fileTree = ref([])
 const fileInput = ref(null)
@@ -44,7 +45,6 @@ onMounted(async () => {
 
 async function fetchCourseFiles() {
     try {
-        const courseId = router.currentRoute.value.params.courseId
         if (!courseId) {
             throw new Error('Course ID is missing')
         }
@@ -52,18 +52,19 @@ async function fetchCourseFiles() {
         if (response && response.data) {
             courseFiles.value = response.data
             fileTree.value = buildFileTree(courseFiles.value, courseId)
-            console.log("course files Value: ", courseFiles.value)
         } else {
-            throw new Error('Failed to load course files')
+            ElMessage.error('Failed to fetch course files')
         }
     } catch (error) {
-        console.error('Failed to load course files:', error)
+        console.error('Failed to fetch course files:', error)
     }
 }
 
 function buildFileTree(files, courseId) {
     const tree = []
     const map = {}
+
+    console.log(files)
 
     files.forEach(file => {
         const parts = file.path.split('/').filter(part => part && part !== `courses` && part !== courseId)
@@ -75,6 +76,7 @@ function buildFileTree(files, courseId) {
                     name: part,
                     path: parts.slice(0, index + 1).join('/'),
                     type: index === parts.length - 1 ? file.type : 'directory',
+                    downloadUrl: file.downloadUrl,
                     children: []
                 }
                 map[part] = node
@@ -115,7 +117,6 @@ async function handleFileChange(event) {
     }
     if (file) {
         try {
-            const courseId = router.currentRoute.value.params.courseId
             const formData = new FormData()
             formData.append('file', file)
             formData.append('directory', selectedDirectory.value)

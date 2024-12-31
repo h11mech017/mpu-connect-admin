@@ -14,7 +14,6 @@ import router from './router';
 const userStore = useUserStore()
 
 onMounted(async () => {
-  console.log(userStore.token)
   if (userStore.token) {
     const role = await getUserRole(userStore.token)
     userStore.setRole(role.data)

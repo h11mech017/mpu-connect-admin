@@ -1,6 +1,7 @@
 <template>
     <div v-if="userStore.role === 'Teacher'">
         <CourseFiles />
+        <CourseAssignments />
     </div>
 </template>
 
@@ -10,6 +11,7 @@ import { useUserStore } from '../stores/userStore'
 import { fetchData } from '../controller'
 import CourseFiles from '../components/CourseFiles.vue'
 import router from '../router'
+import CourseAssignments from '../components/CourseAssignments.vue'
 
 const userStore = useUserStore()
 
