@@ -85,21 +85,27 @@ async function submitForm() {
     let date = null
 
     date = new Date(parseInt(assignmentStore.formData['Available Date']))
-    assignmentStore.formData['Available Date'] = {
-        _seconds: Math.floor(date.getTime() / 1000),
-        _nanoseconds: (date.getMilliseconds() * 1e6)
+    if (!isNaN(date.getTime())) {
+        assignmentStore.formData['Available Date'] = {
+            _seconds: Math.floor(date.getTime() / 1000),
+            _nanoseconds: (date.getMilliseconds() * 1e6)
+        }
     }
 
     date = new Date(parseInt(assignmentStore.formData['Due Date']))
-    assignmentStore.formData['Due Date'] = {
-        _seconds: Math.floor(date.getTime() / 1000),
-        _nanoseconds: (date.getMilliseconds() * 1e6)
+    if (!isNaN(date.getTime())) {
+        assignmentStore.formData['Due Date'] = {
+            _seconds: Math.floor(date.getTime() / 1000),
+            _nanoseconds: (date.getMilliseconds() * 1e6)
+        }
     }
 
     date = new Date(parseInt(assignmentStore.formData['Submission Deadline']))
-    assignmentStore.formData['Submission Deadline'] = {
-        _seconds: Math.floor(date.getTime() / 1000),
-        _nanoseconds: (date.getMilliseconds() * 1e6)
+    if (!isNaN(date.getTime())) {
+        assignmentStore.formData['Submission Deadline'] = {
+            _seconds: Math.floor(date.getTime() / 1000),
+            _nanoseconds: (date.getMilliseconds() * 1e6)
+        }
     }
     formData.append('formData', JSON.stringify(assignmentStore.formData))
     const response = await uploadFile(`/user/courses/${assignmentStore.formData.courseId}/assignments/${assignmentStore.assignmentId}/update`, userStore.token, formData)
@@ -121,6 +127,4 @@ function toggleEditing() {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

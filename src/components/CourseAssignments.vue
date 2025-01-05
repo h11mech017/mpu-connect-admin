@@ -42,7 +42,7 @@ import { useAssignmentStore } from '../stores/assignmentStore'
 import { fetchData, putData } from '../controller'
 import router from '../router'
 import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
-import { Upload, Plus } from '@element-plus/icons-vue'
+import { Plus } from '@element-plus/icons-vue'
 import AddCourseAssignment from './AddCourseAssignment.vue'
 import EditCourseAssignment from './EditCourseAssignment.vue'
 
@@ -117,9 +117,6 @@ function toggleEditing(assignment) {
     assignmentStore.setAssignmentId(assignment.id)
     assignmentStore.setFormData({ ...assignment })
     assignmentStore.formData.courseId = router.currentRoute.value.params.courseId
-    assignmentStore.formData['Available Date'] = new Date(assignment['Available Date']._seconds * 1000 + assignment['Available Date']._nanoseconds / 1000000)
-    assignmentStore.formData['Due Date'] = new Date(assignment['Due Date']._seconds * 1000 + assignment['Due Date']._nanoseconds / 1000000)
-    assignmentStore.formData['Submission Deadline'] = new Date(assignment['Submission Deadline']._seconds * 1000 + assignment['Submission Deadline']._nanoseconds / 1000000)
 
     assignmentStore.setIsEditing(!assignmentStore.isEditing)
 }
