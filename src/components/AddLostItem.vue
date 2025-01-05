@@ -48,14 +48,7 @@ const itemStore = useItemStore()
 const userStore = useUserStore()
 
 onMounted(() => {
-    itemStore.setFormData({
-        'Category': '',
-        'Description': '',
-        'Found Location': '',
-        'Found Date': '',
-        'Status': 'Waiting to be claimed',
-    })
-
+    itemStore.setFormData({ ...itemStore.initialFormState })
 })
 
 const emit = defineEmits(['itemAdded'])
@@ -70,24 +63,24 @@ async function submitForm() {
         itemStore.formData['Found Date'] = {
             _seconds: Math.floor(date.getTime() / 1000),
             _nanoseconds: (date.getMilliseconds() * 1e6)
-        };
+        }
 
         const response = await postData('/admin/lost/item/add', userStore.token, itemStore.formData);
         if (response.status === 200) {
-            ElMessage.success('Item added successfully');
+            ElMessage.success('Item added successfully')
         } else {
-            ElMessage.error('Failed to add item');
+            ElMessage.error('Failed to add item')
         }
         resetForm()
-        emit('itemAdded');
-        itemStore.setIsAdding(false);
+        emit('itemAdded')
+        itemStore.setIsAdding(false)
     } catch (error) {
-        ElMessage.error('There was an error adding the item: ' + error.message);
+        ElMessage.error('There was an error adding the item: ' + error.message)
     }
 }
 
 function resetForm() {
-    itemStore.setFormData({ ...itemStore.initialFormState });
+    itemStore.setFormData({ ...itemStore.initialFormState })
 }
 
 

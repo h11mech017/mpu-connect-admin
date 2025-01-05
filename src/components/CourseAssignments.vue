@@ -1,6 +1,11 @@
 <template>
+    <h2>Assignments</h2>
+    <el-button type="primary" @click="toggleAdding">Create New Assignment
+        <el-icon class="el-icon--right">
+            <Plus />
+        </el-icon>
+    </el-button>
     <div>
-        <h2>Assignment Submissions</h2>
         <el-table :data="courseAssignments">
             <el-table-column prop="Title" label="Title" width="150" />
             <el-table-column prop="Due Date" label="Due Date" width="120" sortable>
@@ -14,27 +19,37 @@
                     {{ formatTimestamp(scope.row['Submission Deadline']) }}
                 </template>
             </el-table-column>
-            <el-table-column width="200" label="Actions">
+            <el-table-column width="400" label="Actions">
                 <template #default="scope">
                     <div class="actions">
-                    <el-button type="primary" @click="handleClick(scope.row.id)">View Submissions</el-button>
+                        <el-button type="info" @click="handleClick(scope.row.id)">View Submissions</el-button>
+                        <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>
+                        <el-button type="danger" @click="confirmDelete(scope.row.id)">Delete</el-button>
                     </div>
                 </template>
             </el-table-column>
         </el-table>
     </div>
+
+    <AddCourseAssignment @assignmentAdded="fetchCourseAssignments" />
+    <EditCourseAssignment @assignmentUpdated="fetchCourseAssignments"/>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '../stores/userStore'
+import { useAssignmentStore } from '../stores/assignmentStore'
 import { fetchData, putData } from '../controller'
 import router from '../router'
-import { ElMessage } from 'element-plus'
+import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
+import { Upload, Plus } from '@element-plus/icons-vue'
+import AddCourseAssignment from './AddCourseAssignment.vue'
+import EditCourseAssignment from './EditCourseAssignment.vue'
 
 const courseAssignments = ref([])
 
-const userStore = useUserStore();
+const userStore = useUserStore()
+const assignmentStore = useAssignmentStore()
 
 onMounted(async () => {
     await fetchCourseAssignments()
@@ -62,6 +77,53 @@ async function handleClick(id) {
     router.push({ name: 'AssignmentView', params: { courseId: courseId, assignmentId: id } })
 }
 
+async function handleDelete(id) {
+    const courseId = router.currentRoute.value.params.courseId
+    const assignmentId = id
+    const response = await putData(`/user/courses/${courseId}/assignments/${assignmentId}/delete`, userStore.token)
+
+    if (response) {
+        ElMessage.success('Assignment deleted successfully');
+        await fetchCourseAssignments()
+    } else {
+        ElMessage.error('Failed to delete assignment');
+    }
+}
+
+async function confirmDelete(id) {
+    try {
+        await ElMessageBox.confirm(
+            'Are you sure you want to delete this assignment?',
+            'Warning',
+            {
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                type: 'warning',
+            }
+        )
+        await handleDelete(id)
+    } catch (error) {
+        console.log('Delete canceled')
+    }
+}
+
+function toggleAdding() {
+    assignmentStore.formData.courseId = router.currentRoute.value.params.courseId
+    assignmentStore.setFormData({ ...assignmentStore.initialFormState })
+    assignmentStore.setIsAdding(!assignmentStore.isAdding)
+}
+
+function toggleEditing(assignment) {
+    assignmentStore.setAssignmentId(assignment.id)
+    assignmentStore.setFormData({ ...assignment })
+    assignmentStore.formData.courseId = router.currentRoute.value.params.courseId
+    assignmentStore.formData['Available Date'] = new Date(assignment['Available Date']._seconds * 1000 + assignment['Available Date']._nanoseconds / 1000000)
+    assignmentStore.formData['Due Date'] = new Date(assignment['Due Date']._seconds * 1000 + assignment['Due Date']._nanoseconds / 1000000)
+    assignmentStore.formData['Submission Deadline'] = new Date(assignment['Submission Deadline']._seconds * 1000 + assignment['Submission Deadline']._nanoseconds / 1000000)
+
+    assignmentStore.setIsEditing(!assignmentStore.isEditing)
+}
+
 function formatTimestamp(timestamp) {
     if (timestamp) {
         const date = new Date(timestamp._seconds * 1000 + timestamp._nanoseconds / 1000000)
@@ -72,6 +134,4 @@ function formatTimestamp(timestamp) {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

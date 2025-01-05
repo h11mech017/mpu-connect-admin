@@ -64,8 +64,6 @@ function buildFileTree(files, courseId) {
     const tree = []
     const map = {}
 
-    console.log(files)
-
     files.forEach(file => {
         const parts = file.path.split('/').filter(part => part && part !== `courses` && part !== courseId)
         let currentLevel = tree
@@ -122,7 +120,7 @@ async function handleFileChange(event) {
             formData.append('directory', selectedDirectory.value)
 
             const response = await uploadFile(`/user/courses/${courseId}/files/upload`, userStore.token, formData)
-            if (response) {
+            if (response.status === 200) {
                 ElMessage.success('File uploaded successfully')
                 setTimeout(async () => {
                     await fetchCourseFiles()

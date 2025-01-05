@@ -10,6 +10,14 @@ export const useItemStore = defineStore("item", () => {
     const locations = ref([])
     const subCategories = ref([])
 
+    const initialFormState = {
+        'Category': '',
+        'Description': '',
+        'Found Location': '',
+        'Found Date': '',
+        'Status': 'Waiting to be claimed',
+    }
+
     const setIsAdding = (value) => {
         isAdding.value = value;
     }
@@ -42,6 +50,7 @@ export const useItemStore = defineStore("item", () => {
 
     return {
         formData,
+        initialFormState,
         itemId,
         isAdding,
         isClaiming,

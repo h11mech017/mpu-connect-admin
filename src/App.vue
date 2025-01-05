@@ -23,4 +23,8 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped></style>
+<style>
+.el-button {
+  margin: 10px;
+}
+</style>
