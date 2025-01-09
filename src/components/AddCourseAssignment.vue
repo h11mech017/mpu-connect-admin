@@ -2,6 +2,9 @@
     <div>
         <el-dialog v-model="assignmentStore.isAdding" title="Create New Assignment">
             <el-form :model="assignmentStore.formData">
+                <el-form-item label="ID">
+                    <el-text v-model="assignmentStore.formData['courseId']"></el-text>
+                </el-form-item>
                 <el-form-item label="Title">
                     <el-input v-model="assignmentStore.formData['Title']"></el-input>
                 </el-form-item>
@@ -56,13 +59,16 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Upload } from '@element-plus/icons-vue'
+import router from '../router'
 import { uploadFile } from '../controller'
 import { useAssignmentStore } from '../stores/assignmentStore'
+import { useUserStore } from '../stores/userStore'
 
 const fileInput = ref(null)
 const uploadedFiles = ref([])
 const formData = new FormData()
 
+const userStore = useUserStore()
 const assignmentStore = useAssignmentStore()
 
 const emit = defineEmits(['assignmentAdded'])
@@ -114,7 +120,7 @@ async function submitForm() {
         _nanoseconds: (date.getMilliseconds() * 1e6)
     }
     formData.append('formData', JSON.stringify(assignmentStore.formData))
-    const response = await uploadFile(`/user/courses/${assignmentStore.formData.courseId}/assignments/add`, userStore.token, formData)
+    const response = await uploadFile(`/user/courses/${assignmentStore.formData['courseId']}/assignments/add`, userStore.token, formData)
 
     if (response.status === 200) {
         ElMessage.success('Assignment added successfully');

@@ -72,6 +72,20 @@ export async function uploadFile(endpoint, token, formData) {
     }
 }
 
+export async function deleteFile(endpoint, token, filepath) {
+    try {
+        const response = await api.delete(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                filepath
+            },
+        })
+        return response
+    } catch (error) {
+        ElMessage.error('Error deleting file')
+    }
+}
+
 export async function putData(endpoint, token, id, data) {
     try {
         const response = await api.put(endpoint, {id, data}, {
@@ -84,6 +98,5 @@ export async function putData(endpoint, token, id, data) {
         ElMessage.error('Error updating data')
     }
 }
-
 
 export default api

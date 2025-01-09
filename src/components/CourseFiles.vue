@@ -12,7 +12,9 @@
             <template #default="{ node, data }">
                 <span>{{ data.name }}</span>
                 <el-text v-if="data.type === 'file'" type="link" @click.stop="downloadFile(data.downloadUrl)"
-                    class="download-link">Download</el-text>
+                    class="link">Download</el-text>
+                <el-text v-if="data.type === 'file'" type="link" @click.stop="confirmDeleteFile(data.path)"
+                    class="link">Delete</el-text>
             </template>
         </el-tree>
     </div>
@@ -21,8 +23,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '../stores/userStore'
-import { fetchData, uploadFile } from '../controller'
-import { ElTree, ElButton, ElMessage } from 'element-plus'
+import { fetchData, uploadFile, deleteFile } from '../controller'
+import { ElTree, ElButton, ElMessage, ElMessageBox } from 'element-plus'
 import { Upload } from '@element-plus/icons-vue'
 import router from '../router'
 
@@ -99,6 +101,36 @@ function downloadFile(url) {
     window.open(url, '_blank')
 }
 
+async function handleFileDelete(filepath) {
+    const response = await deleteFile(`/user/courses/${courseId}/files/delete`, userStore.token, filepath)
+
+    if (response.status === 200) {
+        ElMessage.success('File deleted successfully')
+        setTimeout(async () => {
+            await fetchCourseFiles()
+        }, 2000)
+    } else {
+        ElMessage.error('Failed to delete file')
+    }
+}
+
+async function confirmDeleteFile(filepath) {
+    try {
+        await ElMessageBox.confirm(
+            'Are you sure you want to delete this file?',
+            'Warning',
+            {
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                type: 'warning',
+            }
+        )
+        await handleFileDelete(filepath)
+    } catch (error) {
+        console.log('Delete canceled: ', error)
+    }
+}
+
 function triggerFileUpload() {
     if (!selectedDirectory.value) {
         ElMessage.error('Please click on the directory you want to upload the file to')
@@ -124,7 +156,7 @@ async function handleFileChange(event) {
                 ElMessage.success('File uploaded successfully')
                 setTimeout(async () => {
                     await fetchCourseFiles()
-                }, 2000) 
+                }, 2000)
             } else {
                 throw new Error('Failed to upload file')
             }
@@ -142,7 +174,7 @@ async function handleFileChange(event) {
     margin: 0 auto;
 }
 
-.download-link {
+.link {
     margin: 10px;
     text-decoration: underline;
 }

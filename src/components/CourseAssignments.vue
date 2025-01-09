@@ -109,7 +109,6 @@ async function confirmDelete(id) {
 
 function toggleAdding() {
     assignmentStore.formData.courseId = router.currentRoute.value.params.courseId
-    assignmentStore.setFormData({ ...assignmentStore.initialFormState })
     assignmentStore.setIsAdding(!assignmentStore.isAdding)
 }
 
