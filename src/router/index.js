@@ -3,6 +3,7 @@ import LoginView from "../views/LoginView.vue"
 import HomeView from "../views/HomeView.vue"
 import CourseView from "../views/CourseView.vue"
 import AssingmentView from "../views/AssingmentView.vue"
+import AttendanceView from "../views/AttendanceView.vue"
 
 const router = createRouter({
     history: createWebHistory(),
@@ -22,14 +23,19 @@ const router = createRouter({
             component: HomeView
         },
         {
-            path: '/courses/:courseId',
+            path: '/courses/:courseId/:section',
             name: 'CourseView',
             component: CourseView
         },
         {
-            path :'/courses/:courseId/:assignmentId',
+            path: '/courses/:courseId/:section/assignments/:assignmentId',
             name: 'AssignmentView',
             component: AssingmentView
+        },
+        {
+            path: '/courses/:courseId/:section/attendance/:attendanceId',
+            name: 'AttendanceView',
+            component: AttendanceView
         }
     ]
 })

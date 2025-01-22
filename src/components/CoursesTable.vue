@@ -27,7 +27,7 @@ onMounted(async () => {
 })
 
 async function handleRowClick(row) {
-    router.push({ name: 'CourseView', params: { courseId: row.id } })
+    router.push({ name: 'CourseView', params: { courseId: row.id, section: row['Section'] } })
 }
 
 

@@ -74,7 +74,8 @@ async function fetchCourseAssignments() {
 
 async function handleClick(id) {
     const courseId = router.currentRoute.value.params.courseId
-    router.push({ name: 'AssignmentView', params: { courseId: courseId, assignmentId: id } })
+    const section = router.currentRoute.value.params.section
+    router.push({ name: 'AssignmentView', params: { courseId: courseId, section: section, assignmentId: id } })
 }
 
 async function handleDelete(id) {

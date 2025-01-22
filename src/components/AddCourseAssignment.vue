@@ -2,9 +2,6 @@
     <div>
         <el-dialog v-model="assignmentStore.isAdding" title="Create New Assignment">
             <el-form :model="assignmentStore.formData">
-                <el-form-item label="ID">
-                    <el-text v-model="assignmentStore.formData['courseId']"></el-text>
-                </el-form-item>
                 <el-form-item label="Title">
                     <el-input v-model="assignmentStore.formData['Title']"></el-input>
                 </el-form-item>

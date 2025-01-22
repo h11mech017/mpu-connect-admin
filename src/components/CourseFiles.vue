@@ -6,6 +6,11 @@
                 <Upload />
             </el-icon>
         </el-button>
+        <el-button type="primary" @click="newFolderUpload">
+            Create New Folder<el-icon class="el-icon--right">
+                <Folder />
+            </el-icon>
+        </el-button>
         <input type="file" ref="fileInput" style="display: none" @change="handleFileChange" />
         <p v-if="selectedDirectory">chosen directory: {{ selectedDirectory }}</p>
         <el-tree :data="fileTree" :props="defaultProps" node-key="path" @node-click="handleNodeClick" class="file-tree">
@@ -25,7 +30,7 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { fetchData, uploadFile, deleteFile } from '../controller'
 import { ElTree, ElButton, ElMessage, ElMessageBox } from 'element-plus'
-import { Upload } from '@element-plus/icons-vue'
+import { Folder, Upload } from '@element-plus/icons-vue'
 import router from '../router'
 
 const courseId = router.currentRoute.value.params.courseId
@@ -124,11 +129,34 @@ async function confirmDeleteFile(filepath) {
                 cancelButtonText: 'No',
                 type: 'warning',
             }
-        )
-        await handleFileDelete(filepath)
+        ).then(async () => {
+            await handleFileDelete(filepath)
+        })
     } catch (error) {
         console.log('Delete canceled: ', error)
     }
+}
+
+async function newFolderUpload() {
+    await ElMessageBox.confirm(
+        'Do you want to create a new folder?',
+        {
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            beforeClose: async (action, instance, done) => {
+                if (action === 'confirm') {
+                    if (selectedDirectory.value === '') {
+                        selectedDirectory.value = 'course_materials'
+                    }
+                    await createNewDirectory()
+                    await fileInput.value.click()
+                    done()
+                } else {
+                    done()
+                }
+            }
+        }
+    )
 }
 
 function triggerFileUpload() {
@@ -137,6 +165,17 @@ function triggerFileUpload() {
         return
     }
     fileInput.value.click()
+}
+
+async function createNewDirectory() {
+    await ElMessageBox.prompt('Enter the name of the new folder', 'New Folder', {
+        confirmButtonText: 'Create',
+        cancelButtonText: 'Cancel',
+    }).then(async ({ value }) => {
+        if (value) {
+            selectedDirectory.value = selectedDirectory.value + '/' + value
+        }
+    })
 }
 
 async function handleFileChange(event) {
