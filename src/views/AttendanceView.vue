@@ -2,6 +2,11 @@
     <div v-if="attendanceDetail">
         <h1>{{ formatTimestamp(attendanceDetail['Class Date']) }}</h1>
         <el-button type="primary" @click="showQrCode">QR Code</el-button>
+        <el-button type="info" @click="fetchAttendanceDetail">Refresh
+            <el-icon class="el-icon--right">
+            <RefreshRight />
+        </el-icon>
+        </el-button>
         <el-dialog v-model="showQr" title="Attendance QR Code" :style="{ height: '400px' }" width="50%">
             <div class="qr-code-container">
                 <qrcode-svg :value="qrCodeValue" level="H" size="90%" />
@@ -27,6 +32,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { fetchData, postData, putData } from '../controller'
 import { ElButton, ElMessage } from 'element-plus'
+import { RefreshRight } from '@element-plus/icons-vue'
 import router from '../router'
 import { QrcodeSvg } from 'qrcode.vue'
 
@@ -69,7 +75,6 @@ async function updateAttendanceStatus(studentUid, status) {
         const section = router.currentRoute.value.params.section
         const attendanceId = router.currentRoute.value.params.attendanceId
 
-        console.log('Updating attendance status:', studentUid, status)
         const response = await putData(`/user/courses/${courseId}/${section}/attendance/${attendanceId}/update`, userStore.token, studentUid, status)
         if (response) {
             await fetchAttendanceDetail()
@@ -87,7 +92,7 @@ function showQrCode() {
 }
 
 async function generateQrCodeValue() {
-    const apiEndpoint = `${import.meta.env.VITE_BACKEND_URL_TEST}/user/courses/${router.currentRoute.value.params.courseId}/${router.currentRoute.value.params.section}/attendance/${router.currentRoute.value.params.attendanceId}/checkin`
+    const apiEndpoint = `${import.meta.env.VITE_BACKEND_URL}/user/courses/${router.currentRoute.value.params.courseId}/${router.currentRoute.value.params.section}/attendance/${router.currentRoute.value.params.attendanceId}/checkin`
     const timestamp = Date.now()
     const data = new TextEncoder().encode(apiEndpoint + timestamp)
     const hashBuffer = await crypto.subtle.digest('SHA-256', data)

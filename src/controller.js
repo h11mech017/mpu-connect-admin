@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL_TEST
+    baseURL: import.meta.env.VITE_BACKEND_URL_TEST,
 })
 
 export async function checkRole(token) {

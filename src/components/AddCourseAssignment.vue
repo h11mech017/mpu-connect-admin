@@ -56,7 +56,6 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Upload } from '@element-plus/icons-vue'
-import router from '../router'
 import { uploadFile } from '../controller'
 import { useAssignmentStore } from '../stores/assignmentStore'
 import { useUserStore } from '../stores/userStore'

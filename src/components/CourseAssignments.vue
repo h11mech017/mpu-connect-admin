@@ -32,7 +32,7 @@
     </div>
 
     <AddCourseAssignment @assignmentAdded="fetchCourseAssignments" />
-    <EditCourseAssignment @assignmentUpdated="fetchCourseAssignments"/>
+    <EditCourseAssignment @assignmentUpdated="fetchCourseAssignments" />
 </template>
 
 <script setup>
@@ -109,6 +109,8 @@ async function confirmDelete(id) {
 }
 
 function toggleAdding() {
+    assignmentStore.setFormData({ ...assignmentStore.initialFormState })
+
     assignmentStore.formData.courseId = router.currentRoute.value.params.courseId
     assignmentStore.setIsAdding(!assignmentStore.isAdding)
 }
