@@ -1,6 +1,7 @@
 <template>
   <div v-if="!isLoading">
     <div v-if="userStore.role === 'Admin'">
+      <CampusEvents />
       <ParkingTable />
       <LostItemsTable />
     </div>
@@ -23,6 +24,7 @@ import LostItemsTable from '../components/LostItemsTable.vue'
 import CoursesTable from '../components/CoursesTable.vue'
 import { useUserStore } from '../stores/userStore'
 import { getUserRole } from '../controller'
+import CampusEvents from '../components/CampusEvents.vue'
 
 const auth = useFirebaseAuth()
 const userStore = useUserStore()

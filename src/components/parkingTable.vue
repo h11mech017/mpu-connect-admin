@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Parking Applications</h2>
-        <el-table :data="parkingApplications.data">
+        <el-table :data="parkingApplications.data" :fit="false">
             <el-table-column prop="Student ID" label="Student ID" width="90" />
             <el-table-column prop="Card valid till" label="Student Card valid till" width="180" sortable>
                 <template #default="scope">

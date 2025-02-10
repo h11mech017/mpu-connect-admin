@@ -1,9 +1,10 @@
 <template>
     <div>
         <h1>Assignment Submissions</h1>
+        <p>{{ submissions.length }} of {{ enrolledStudents.length }} Students have submitted</p>
         <el-table :data="submissions" style="width: 100%">
             <el-table-column type="index" width="90"></el-table-column>
-            <el-table-column prop="Student" label="Student ID" width="120" />
+            <el-table-column prop="Student ID" label="Student ID" width="120" />
             <el-table-column prop="Submission Date" label="Submission Date" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Submission Date']) }}
@@ -43,8 +44,10 @@ import router from '../router'
 import { ElMessage } from 'element-plus'
 
 const courseId = router.currentRoute.value.params.courseId
+const section = router.currentRoute.value.params.section
 const assignmentId = router.currentRoute.value.params.assignmentId
 const submissions = ref([])
+const enrolledStudents = ref([])
 
 const gradeDialogVisible = ref(false)
 const currentSubmission = ref({})
@@ -53,12 +56,20 @@ const userStore = useUserStore()
 
 onMounted(async () => {
     await fetchSubmissions()
+    await fetchEnrolledStudents()
 })
 
 async function fetchSubmissions() {
-    const response = await fetchData(`/user/courses/${courseId}/assignments/${assignmentId}/submissions`, userStore.token)
+    const response = await fetchData(`/user/courses/${courseId}/${section}/assignments/${assignmentId}/submissions`, userStore.token)
     if (response && response.data) {
         submissions.value = response.data
+    }
+}
+
+async function fetchEnrolledStudents() {
+    const response = await fetchData(`/user/courses/${courseId}/${section}/students`, userStore.token)
+    if (response && response.data) {
+        enrolledStudents.value = response.data
     }
 }
 

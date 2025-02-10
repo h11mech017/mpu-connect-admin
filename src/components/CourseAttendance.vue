@@ -19,7 +19,7 @@
                     {{ formatTimestamp(scope.row['Updated At']) }}
                 </template>
             </el-table-column>
-            <el-table-column width="200">
+            <el-table-column width="150">
                 <template #default="scope">
                     <div class="actions">
                         <el-button type="primary" @click="editAttendance(scope.row.id)">Enter</el-button>
