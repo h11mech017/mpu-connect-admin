@@ -6,11 +6,24 @@
                     <el-input v-model="eventStore.formData['Headline']"></el-input>
                 </el-form-item>
                 <el-form-item label="Details">
-                    <template v-for="(value, key) in eventStore.formData['Details']" :key="key">
-                        <el-form-item :label="key">
-                            <el-input v-model="eventStore.formData['Details'][key]"></el-input>
-                        </el-form-item>
-                    </template>
+                    <el-form-item class="form-item-spacing" label="Name of Event">
+                        <el-input v-model="eventStore.formData['Name of Event']"></el-input>
+                    </el-form-item>
+                    <el-form-item class="form-item-spacing" label="Organization">
+                        <el-input v-model="eventStore.formData['Organization']"></el-input>
+                    </el-form-item>
+                    <el-form-item class="form-item-spacing" label="Introduction" width="300px">
+                        <el-input v-model="eventStore.formData['Introduction']" type="textarea"></el-input>
+                    </el-form-item>
+                    <el-form-item class="form-item-spacing" label="Time">
+                        <el-input v-model="eventStore.formData['Time']"></el-input>
+                    </el-form-item>
+                    <el-form-item class="form-item-spacing" label="Venue">
+                        <el-input v-model="eventStore.formData['Venue']"></el-input>
+                    </el-form-item>
+                    <el-form-item class="form-item-spacing" label="Audience">
+                        <el-input v-model="eventStore.formData['Audience']"></el-input>
+                    </el-form-item>
                 </el-form-item>
                 <el-form-item label="Event Start Date">
                     <el-date-picker v-model="eventStore.formData['Event Start Date']" type="datetime"
@@ -29,13 +42,13 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="triggerFileUpload">
-                        Upload files<el-icon class="el-icon--right">
+                        Upload Images<el-icon class="el-icon--right">
                             <Upload />
                         </el-icon>
                     </el-button>
                     <input type="file" ref="fileInput" style="display: none" @change="handleFile" multiple />
                 </el-form-item>
-                <el-form-item label="Uploaded Files">
+                <el-form-item label="Uploaded Images">
                     <ul>
                         <li v-for="file in uploadedFiles" :key="file.name">{{ file.name }}</li>
                     </ul>
@@ -69,7 +82,6 @@ const emit = defineEmits(['eventAdded'])
 
 onMounted(() => {
     eventStore.setFormData({ ...eventStore.formInitialState })
-    console.log(eventStore.formData)
 })
 
 function toggleAdding() {
@@ -97,25 +109,41 @@ function handleFile() {
 async function submitForm() {
     let date = null
 
-    date = new Date(parseInt(eventStore.formData['Available Date']))
-    eventStore.formData['Available Date'] = {
+    date = new Date(parseInt(eventStore.formData['Event Start Date']))
+    eventStore.formData['Event Start Date'] = {
         _seconds: Math.floor(date.getTime() / 1000),
         _nanoseconds: (date.getMilliseconds() * 1e6)
     }
 
-    date = new Date(parseInt(eventStore.formData['Due Date']))
-    eventStore.formData['Due Date'] = {
+    date = new Date(parseInt(eventStore.formData['Event End Date']))
+    eventStore.formData['Event End Date'] = {
         _seconds: Math.floor(date.getTime() / 1000),
         _nanoseconds: (date.getMilliseconds() * 1e6)
     }
 
-    date = new Date(parseInt(eventStore.formData['Submission Deadline']))
-    eventStore.formData['Submission Deadline'] = {
+    date = new Date(parseInt(eventStore.formData['Visible Date']))
+    eventStore.formData['Visible Date'] = {
         _seconds: Math.floor(date.getTime() / 1000),
         _nanoseconds: (date.getMilliseconds() * 1e6)
     }
-    formData.append('formData', JSON.stringify(eventStore.formData))
-    const response = await uploadFile(`/user/courses/${eventStore.formData['courseId']}/events/add`, userStore.token, formData)
+
+    const form = {
+        'Headline': eventStore.formData['Headline'],
+        'Details': {
+            'Name of Event': eventStore.formData['Name of Event'],
+            'Organization': eventStore.formData['Organization'],
+            'Introduction': eventStore.formData['Introduction'],
+            'Time': eventStore.formData['Time'],
+            'Venue': eventStore.formData['Venue'],
+            'Audience': eventStore.formData['Audience']
+        },
+        'Event Start Date': eventStore.formData['Event Start Date'],
+        'Event End Date': eventStore.formData['Event End Date'],
+        'Visible Date': eventStore.formData['Visible Date'],
+    }
+
+    formData.set('formData', JSON.stringify(form))
+    const response = await uploadFile(`/campus/events/add`, userStore.token, formData)
 
     if (response.status === 200) {
         ElMessage.success('event added successfully');
@@ -136,4 +164,8 @@ async function resetForm() {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.form-item-spacing {
+    margin: 20px;
+}
+</style>

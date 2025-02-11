@@ -2,23 +2,23 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useEventStore = defineStore("event", () => {
-    const formData = ref()
+    const formData = ref({})
+
     const isAdding = ref(false)
     const isEditing = ref(false)
 
     const formInitialState = ref({
+        'id': '',
         'Headline': '',
         'Event Start Date': '',
         'Event End Date': '',
         'Post Date': '',
-        'Details': {
-            'Name of Event': '',
-            'Organization': '',
-            'Introduction': '',
-            'Time': '',
-            'Venue': '',
-            'Audience': '',
-        },
+        'Name of Event': '',
+        'Organization': '',
+        'Introduction': '',
+        'Time': '',
+        'Venue': '',
+        'Audience': '',
     })
 
     const setFormData = (data) => {

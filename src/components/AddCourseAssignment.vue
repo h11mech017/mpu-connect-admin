@@ -115,7 +115,7 @@ async function submitForm() {
         _seconds: Math.floor(date.getTime() / 1000),
         _nanoseconds: (date.getMilliseconds() * 1e6)
     }
-    formData.append('formData', JSON.stringify(assignmentStore.formData))
+    formData.set('formData', JSON.stringify(assignmentStore.formData))
     const response = await uploadFile(`/user/courses/${assignmentStore.formData['courseId']}/assignments/add`, userStore.token, formData)
 
     if (response.status === 200) {

@@ -77,9 +77,8 @@ async function fetchCampusEvents() {
 }
 
 async function handleDelete(id) {
-    const campusId = router.currentRoute.value.params.campusId
     const eventId = id
-    const response = await putData(`/user/campuss/${campusId}/events/${eventId}/delete`, userStore.token)
+    const response = await putData(`/campus/events/${eventId}/delete`, userStore.token)
 
     if (response) {
         ElMessage.success('Event deleted successfully');
@@ -113,7 +112,10 @@ function toggleAdding() {
 }
 
 function toggleEditing(event) {
-    eventStore.setFormData({ ...event })
+    eventStore.setFormData({ 
+        'id': event.id,
+        ...event 
+    })
 
     eventStore.setIsEditing(!eventStore.isEditing)
 }
