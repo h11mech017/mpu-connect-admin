@@ -7,6 +7,7 @@
             <RefreshRight />
         </el-icon>
         </el-button>
+        <section>{{ attendanceCount }} / {{ attendanceDetail.Students.length }} students taken</section>
         <el-dialog v-model="showQr" title="Attendance QR Code" :style="{ height: '400px' }" width="50%">
             <div class="qr-code-container">
                 <qrcode-svg :value="qrCodeValue" level="H" size="90%" />
@@ -30,14 +31,15 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '../stores/userStore'
-import { fetchData, postData, putData } from '../controller'
+import { fetchData, putData } from '../controller'
 import { ElButton, ElMessage } from 'element-plus'
 import { RefreshRight } from '@element-plus/icons-vue'
 import router from '../router'
 import { QrcodeSvg } from 'qrcode.vue'
 
 const attendanceDetail = ref()
-const userStore = useUserStore();
+const attendanceCount = ref(0)
+const userStore = useUserStore()
 const qrCodeValue = ref('')
 const showQr = ref(false)
 
@@ -61,6 +63,14 @@ async function fetchAttendanceDetail() {
         const response = await fetchData(`/user/courses/${courseId}/${section}/attendance/${attendanceId}`, userStore.token)
         if (response && response.data) {
             attendanceDetail.value = response.data
+
+            attendanceCount.value = 0
+            attendanceDetail.value.Students.forEach(student => {
+                if (student.Status === 'Present') {
+                    attendanceCount.value++
+                }
+            })
+
         } else {
             ElMessage.error('Failed to fetch attendance records')
         }

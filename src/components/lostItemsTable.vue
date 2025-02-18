@@ -2,7 +2,7 @@
     <div>
         <h2>Lost and Found Items</h2>
         <el-button type="primary" @click="toggleAdding">Add Lost Item</el-button>
-        <el-table :data="lostItems.data" :defaul-sort="{ prop: 'Found Date', order: 'decending' }" :fit="false">
+        <el-table :data="lostItems.data" :defaul-sort="{ prop: 'Found Date', order: 'decending' }" style="width: 100%;">
             <el-table-column type="index" width="90"></el-table-column>
             <el-table-column prop="Category" label="Category" width="180"></el-table-column>
             <el-table-column prop="Description" label="Description" width="180"></el-table-column>
