@@ -43,6 +43,9 @@
                         placeholder="Pick a date and time" format="DD/MM/YYYY HH:mm:ss" value-format="x">
                     </el-date-picker>
                 </el-form-item>
+                <el-form-item label="Is it a Notification?">
+                    <el-switch v-model="eventStore.formData['is Notification']"></el-switch>
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="triggerFileUpload">
                         Upload Images<el-icon class="el-icon--right">

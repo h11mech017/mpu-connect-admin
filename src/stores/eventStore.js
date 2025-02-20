@@ -19,6 +19,7 @@ export const useEventStore = defineStore("event", () => {
         'Time': '',
         'Venue': '',
         'Audience': '',
+        'is Notification': false,
     })
 
     const setFormData = (data) => {
