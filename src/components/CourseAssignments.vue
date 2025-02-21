@@ -1,11 +1,11 @@
 <template>
-    <h2>Assignments</h2>
-    <el-button type="primary" @click="toggleAdding">Create New Assignment
-        <el-icon class="el-icon--right">
-            <Plus />
-        </el-icon>
-    </el-button>
     <div>
+        <h2>Assignments</h2>
+        <el-button type="primary" @click="toggleAdding">Create New Assignment
+            <el-icon class="el-icon--right">
+                <Plus />
+            </el-icon>
+        </el-button>
         <el-table :data="courseAssignments">
             <el-table-column prop="Title" label="Title" width="150" />
             <el-table-column prop="Due Date" label="Due Date" width="120" sortable>

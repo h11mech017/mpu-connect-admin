@@ -1,26 +1,26 @@
 <template>
     <div>
         <h2>Parking Applications</h2>
-        <el-table :data="parkingApplications.data" :fit="false" style="width: 100%;">
-            <el-table-column prop="Student ID" label="Student ID" width="90" />
-            <el-table-column prop="Card valid till" label="Student Card valid till" width="180" sortable>
+        <el-table :data="parkingApplications.data" :table-layout="auto">
+            <el-table-column prop="Student ID" label="Student ID" />
+            <el-table-column prop="Card valid till" label="Student Card valid till" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Card valid till']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Name" label="Name" width="180" />
-            <el-table-column prop="Motorcycle Plate No" label="Motorcycle Plate No." width="180" />
-            <el-table-column prop="Applied At" label="Applied At" width="180" sortable>
+            <el-table-column prop="Name" label="Name" />
+            <el-table-column prop="Motorcycle Plate No" label="Motorcycle Plate No." />
+            <el-table-column prop="Applied At" label="Applied At" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Applied At']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Status" label="Status" width="180" sortable />
-            <el-table-column width="200">
+            <el-table-column prop="Status" label="Status" sortable />
+            <el-table-column width="220">
                 <template #default="scope">
                     <div class="actions">
-                    <el-button type="primary" @click="approveParkingApplication(scope.row.id)">Approve</el-button>
-                    <el-button type="danger" @click="rejectParkingApplication(scope.row.id)">Reject</el-button>
+                        <el-button type="primary" @click="approveParkingApplication(scope.row.id)">Approve</el-button>
+                        <el-button type="danger" @click="rejectParkingApplication(scope.row.id)">Reject</el-button>
                     </div>
                 </template>
             </el-table-column>

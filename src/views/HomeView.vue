@@ -1,13 +1,13 @@
 <template>
   <div v-if="!isLoading">
     <div v-if="userStore.role === 'Admin'">
-      <NavigationBar />
+      <!-- <NavigationBar /> -->
       <CampusEvents />
       <ParkingTable />
       <LostItemsTable />
     </div>
     <div v-else-if="userStore.role === 'Teacher'">
-      <NavigationBar />
+      <!-- <NavigationBar /> -->
       <CoursesTable />
     </div>
   </div>
@@ -57,3 +57,10 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style>
+.table {
+    width: 100%;
+    text-align: left;
+}
+</style>

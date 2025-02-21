@@ -1,34 +1,34 @@
 <template>
-    <h2>Events</h2>
-    <el-button type="primary" @click="toggleAdding">Add New Event
-        <el-icon class="el-icon--right">
-            <Plus />
-        </el-icon>
-    </el-button>
     <div>
-        <el-table :data="campusEvents" :fit="false">
-            <el-table-column prop="Headline" label="Headline" width="200" />
-            <el-table-column prop="Post Date" label="Post Date" width="120" sortable>
+        <h2>Events</h2>
+        <el-button type="primary" @click="toggleAdding">Add New Event
+            <el-icon class="el-icon--right">
+                <Plus />
+            </el-icon>
+        </el-button>
+        <el-table :data="campusEvents" :table-layour="auto">
+            <el-table-column prop="Headline" label="Headline" />
+            <el-table-column prop="Post Date" label="Post Date" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Post Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Event Start Date" label="Event Start Date" width="170" sortable>
+            <el-table-column prop="Event Start Date" label="Event Start Date" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Event Start Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Event End Date" label="Event End Date" width="170" sortable>
+            <el-table-column prop="Event End Date" label="Event End Date" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Event End Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Visible Date" label="Visible Date" width="170" sortable>
+            <el-table-column prop="Visible Date" label="Visible Date" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Visible Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column width="200" label="Actions">
+            <el-table-column label="Actions">
                 <template #default="scope">
                     <div class="actions">
                         <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>
@@ -112,9 +112,9 @@ function toggleAdding() {
 }
 
 function toggleEditing(event) {
-    eventStore.setFormData({ 
+    eventStore.setFormData({
         'id': event.id,
-        ...event 
+        ...event
     })
 
     eventStore.setIsEditing(!eventStore.isEditing)
