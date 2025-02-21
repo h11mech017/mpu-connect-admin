@@ -15,7 +15,7 @@
 import { onMounted } from 'vue'
 import { ref } from 'vue'
 import { useUserStore } from '../stores/userStore'
-import { fetchData, putData } from '../controller'
+import { fetchData } from '../controller'
 import router from '../router'
 
 const courses = ref([])

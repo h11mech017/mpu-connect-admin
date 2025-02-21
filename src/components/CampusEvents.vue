@@ -6,29 +6,29 @@
                 <Plus />
             </el-icon>
         </el-button>
-        <el-table :data="campusEvents" :table-layour="auto">
-            <el-table-column prop="Headline" label="Headline" />
-            <el-table-column prop="Post Date" label="Post Date" sortable>
+        <el-table :data="campusEvents" :table-layour="auto" class="table-container">
+            <el-table-column prop="Headline" label="Headline" width="200" />
+            <el-table-column prop="Post Date" label="Post Date" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Post Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Event Start Date" label="Event Start Date" sortable>
+            <el-table-column prop="Event Start Date" label="Event Start Date" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Event Start Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Event End Date" label="Event End Date" sortable>
+            <el-table-column prop="Event End Date" label="Event End Date" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Event End Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Visible Date" label="Visible Date" sortable>
+            <el-table-column prop="Visible Date" label="Visible Date" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Visible Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column label="Actions">
+            <el-table-column width="200" label="Actions">
                 <template #default="scope">
                     <div class="actions">
                         <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>

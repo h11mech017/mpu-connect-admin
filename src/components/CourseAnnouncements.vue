@@ -38,7 +38,7 @@
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { useAnnouncementStore } from '../stores/announcementStore'
-import { fetchData, postData, putData } from '../controller'
+import { fetchData, putData } from '../controller'
 import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import router from '../router'

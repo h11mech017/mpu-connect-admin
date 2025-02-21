@@ -1,21 +1,21 @@
 <template>
     <div>
         <h2>Parking Applications</h2>
-        <el-table :data="parkingApplications.data" :table-layout="auto">
-            <el-table-column prop="Student ID" label="Student ID" />
-            <el-table-column prop="Card valid till" label="Student Card valid till" sortable>
+        <el-table :data="parkingApplications.data" :table-layout="auto" class="table-container">
+            <el-table-column prop="Student ID" label="Student ID" width="100" />
+            <el-table-column prop="Card valid till" label="Student Card valid till" width="200" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Card valid till']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Name" label="Name" />
-            <el-table-column prop="Motorcycle Plate No" label="Motorcycle Plate No." />
-            <el-table-column prop="Applied At" label="Applied At" sortable>
+            <el-table-column prop="Name" label="Name" width="120" />
+            <el-table-column prop="Motorcycle Plate No" label="Motorcycle Plate No." width="100" />
+            <el-table-column prop="Applied At" label="Applied At" width="200" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Applied At']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Status" label="Status" sortable />
+            <el-table-column prop="Status" label="Status" width="130" sortable />
             <el-table-column width="220">
                 <template #default="scope">
                     <div class="actions">
