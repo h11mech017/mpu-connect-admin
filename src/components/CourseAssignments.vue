@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Assignments</h2>
+        <h2>Course Assignments</h2>
         <el-button type="primary" @click="toggleAdding">Create New Assignment
             <el-icon class="el-icon--right">
                 <Plus />

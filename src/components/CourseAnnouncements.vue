@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h2>Course Attendance</h2>
+        <h2>Course Announcements</h2>
         <el-button type="primary" @click="toggleAdding">Add Announcement
             <el-icon class="el-icon--right">
                 <Plus />
             </el-icon>
         </el-button>
-        <el-table :data="announcements" :default-sort="{ prop: 'Post Date', order: 'descending' }" table-layout="auto" class="table-container">
+        <el-table :data="announcements" :default-sort="{ prop: 'Post Date', order: 'descending' }" class="table-container">
             <el-table-column prop="Title" label="Title" width="180"></el-table-column>
             <el-table-column prop="Post Date" label="Post Date" width="180" sortable>
                 <template #default="scope">
