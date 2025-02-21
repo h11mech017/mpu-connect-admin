@@ -6,7 +6,7 @@
                 <Plus />
             </el-icon>
         </el-button>
-        <el-table :data="courseAssignments">
+        <el-table :data="courseAssignments" class="table-container">
             <el-table-column prop="Title" label="Title" width="150" />
             <el-table-column prop="Due Date" label="Due Date" width="120" sortable>
                 <template #default="scope">

@@ -5,7 +5,6 @@
       <EventsView />
     </div>
     <div v-else-if="userStore.role === 'Teacher'">
-      <NavigationBar role="Teacher" />
       <CoursesTable />
     </div>
   </div>

@@ -1,15 +1,13 @@
 <template>
     <NavigationBar role="Teacher" />
-    <CourseFiles />
+    <AssignmentSubmissions />
 </template>
 
 <script setup>
 import NavigationBar from '../components/NavigationBar.vue'
-import CourseFiles from '../components/CourseFiles.vue'
+import AssignmentSubmissions from '../components/AssignmentSubmissions.vue'
 
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

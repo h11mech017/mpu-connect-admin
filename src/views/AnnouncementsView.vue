@@ -1,15 +1,11 @@
 <template>
-    <div v-if="userStore.role === 'Teacher'">
-        <CourseAnnouncements />
-
-    </div>
+    <NavigationBar role="Teacher" />
+    <CourseAnnouncements />
 </template>
 
 <script setup>
-import { useUserStore } from '../stores/userStore'
 import CourseAnnouncements from '../components/CourseAnnouncements.vue';
-
-const userStore = useUserStore()
+import NavigationBar from '../components/NavigationBar.vue';
 
 </script>
 

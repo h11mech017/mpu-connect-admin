@@ -1,4 +1,5 @@
 <template>
+    <NavigationBar role="Teacher" />
     <div v-if="attendanceDetail">
         <h1>{{ formatTimestamp(attendanceDetail['Class Date']) }}</h1>
         <el-button type="primary" @click="showQrCode">QR Code</el-button>
@@ -13,7 +14,7 @@
                 <qrcode-svg :value="qrCodeValue" level="H" size="90%" />
             </div>
         </el-dialog>
-        <el-table :data="attendanceDetail.Students">
+        <el-table :data="attendanceDetail.Students" class="table-container">
             <el-table-column prop="Student ID" label="Student ID" width="100"></el-table-column>
             <el-table-column prop="Name" label="Student Name" width="200"></el-table-column>
             <el-table-column prop="Status" label="Status" width="100"></el-table-column>
@@ -36,6 +37,7 @@ import { ElButton, ElMessage } from 'element-plus'
 import { RefreshRight } from '@element-plus/icons-vue'
 import router from '../router'
 import { QrcodeSvg } from 'qrcode.vue'
+import NavigationBar from '../components/NavigationBar.vue'
 
 const attendanceDetail = ref()
 const attendanceCount = ref(0)

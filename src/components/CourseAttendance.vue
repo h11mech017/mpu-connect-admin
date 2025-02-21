@@ -7,14 +7,14 @@
             </el-icon>
         </el-button>
         <el-table :data="attendanceRecords"
-        :default-sort="{ prop: 'Class Date', order: 'descending' }">
+        :default-sort="{ prop: 'Class Date', order: 'descending' }" class="table-container">
             <el-table-column prop="Section" label="Section" width="100"></el-table-column>
-            <el-table-column prop="Class Date" label="Class Date" sortable>
+            <el-table-column prop="Class Date" label="Class Date" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Class Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Updated At" label="Updated At" sortable>
+            <el-table-column prop="Updated At" label="Updated At" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Updated At']) }}
                 </template>

@@ -4,7 +4,7 @@
       <el-menu active-text-color="#ffd04b" class="menu" default-active="2" text-color="#fff" :router="true">
         <el-menu-item index="/events">
           <el-icon>
-            <ChatLineSquare />
+            <Calendar />
           </el-icon>
           <span>Events</span>
         </el-menu-item>
@@ -26,25 +26,31 @@
   <div v-else-if="role === 'Teacher'">
     <el-row>
       <el-menu active-text-color="#ffd04b" class="menu" default-active="2" text-color="#fff" :router="true">
-        <el-menu-item index="/announcements">
+        <el-menu-item index="/courses">
+          <el-icon>
+            <List />
+          </el-icon>
+          <span>Courses</span>
+        </el-menu-item>
+        <el-menu-item :index="{ path: `/courses/${courseStore.courseId}/${courseStore.section}/announcements` }">
           <el-icon>
             <Bell />
           </el-icon>
           <span>Announcements</span>
         </el-menu-item>
-        <el-menu-item index="/orders">
+        <el-menu-item :index="{ path: `/courses/${courseStore.courseId}/${courseStore.section}/files` }">
           <el-icon>
             <Folder />
           </el-icon>
           <span>Files</span>
         </el-menu-item>
-        <el-menu-item index="/stores">
+        <el-menu-item :index="{ path: `/courses/${courseStore.courseId}/${courseStore.section}/assignments` }">
           <el-icon>
             <Memo />
           </el-icon>
           <span>Assignments</span>
         </el-menu-item>
-        <el-menu-item index="/staffs">
+        <el-menu-item :index="{ path: `/courses/${courseStore.courseId}/${courseStore.section}/attendance` }">
           <el-icon>
             <Checked />
           </el-icon>
@@ -56,8 +62,9 @@
 </template>
 
 <script setup>
-import { ChatLineSquare, Document, Bell, Folder, Memo, Checked, Box } from '@element-plus/icons-vue'
+import { Document, Bell, Folder, Memo, Checked, Box, Calendar, List } from '@element-plus/icons-vue'
 import { defineProps } from 'vue'
+import { useCourseStore } from '../stores/courseStore';
 
 const props = defineProps({
   role: {
@@ -65,6 +72,8 @@ const props = defineProps({
     required: true
   }
 })
+
+const courseStore = useCourseStore()
 </script>
 
 <style scoped>

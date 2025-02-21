@@ -6,15 +6,15 @@
                 <Plus />
             </el-icon>
         </el-button>
-        <el-table :data="announcements" :default-sort="{ prop: 'Post Date', order: 'descending' }">
+        <el-table :data="announcements" :default-sort="{ prop: 'Post Date', order: 'descending' }" table-layout="auto" class="table-container">
             <el-table-column prop="Title" label="Title" width="180"></el-table-column>
-            <el-table-column prop="Post Date" label="Post Date" sortable>
+            <el-table-column prop="Post Date" label="Post Date" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Post Date']) }}
                 </template>
             </el-table-column>
             <el-table-column prop="is Test" label="Is Test" width="100"></el-table-column>
-            <el-table-column prop="Test Date" label="Test Date" sortable>
+            <el-table-column prop="Test Date" label="Test Date" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Test Date']) }}
                 </template>

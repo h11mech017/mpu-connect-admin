@@ -13,7 +13,7 @@
         </el-button>
         <input type="file" ref="fileInput" style="display: none" @change="handleFileChange" />
         <p v-if="selectedDirectory">chosen directory: {{ selectedDirectory }}</p>
-        <el-tree :data="fileTree" :props="defaultProps" node-key="path" @node-click="handleNodeClick" class="file-tree">
+        <el-tree :data="fileTree" :props="defaultProps" node-key="path" @node-click="handleNodeClick" class="file-tree, table-container">
             <template #default="{ node, data }">
                 <span>{{ data.name }}</span>
                 <el-text v-if="data.type === 'file'" type="link" @click.stop="downloadFile(data.downloadUrl)"
