@@ -63,7 +63,6 @@
 
 <script setup>
 import { Document, Bell, Folder, Memo, Checked, Box, Calendar, List } from '@element-plus/icons-vue'
-import { defineProps } from 'vue'
 import { useCourseStore } from '../stores/courseStore';
 
 const props = defineProps({
@@ -79,11 +78,11 @@ const courseStore = useCourseStore()
 <style scoped>
 .menu {
   position: fixed;
-  top: 0;
+  top: 12vh;
   left: 0;
-  width: 25vh;
-  height: 100vh;
-  background-color: green;
-  z-index: 1000;
+  width: 24vh;
+  height: calc(100vh - 12vh);
+  background-color: grey;
+  z-index: 100;
 }
 </style>

@@ -6,7 +6,7 @@
                 <Plus />
             </el-icon>
         </el-button>
-        <el-table :data="attendanceRecords"
+        <el-table v-if="attendanceRecords.length" :data="attendanceRecords"
         :default-sort="{ prop: 'Class Date', order: 'descending' }" class="table-container">
             <el-table-column prop="Section" label="Section" width="100"></el-table-column>
             <el-table-column prop="Class Date" label="Class Date" width="180" sortable>
@@ -27,6 +27,7 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div v-else class="empty-message">No attendance records available.</div>
     </div>
 </template>
 
@@ -95,4 +96,10 @@ function editAttendance(attendanceId) {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.empty-message {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+}
+</style>

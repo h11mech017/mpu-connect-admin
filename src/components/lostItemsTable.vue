@@ -2,30 +2,33 @@
     <div class="lost-items-container">
         <h2>Lost and Found Items</h2>
         <el-button type="primary" @click="toggleAdding">Add Lost Item</el-button>
-        <el-table :data="lostItems.data" :defaul-sort="{ prop: 'Found Date', order: 'decending' }" class="table-container" height="auto">
+        <el-table v-if="lostItems.length" :data="lostItems" :default-sort="{ prop: 'Found Date', order: 'descending' }" class="table-container">
             <el-table-column type="index"></el-table-column>
-            <el-table-column prop="Category" label="Category" width="100" ></el-table-column>
-            <el-table-column prop="Description" label="Description" width="120" ></el-table-column>
-            <el-table-column prop="Found Location" label="Found Location" width="150" ></el-table-column>
-            <el-table-column prop="Found Date" label="Found Date" width="180"  sortable>
+            <el-table-column prop="Category" label="Category" width="100"></el-table-column>
+            <el-table-column prop="Description" label="Description" width="120"></el-table-column>
+            <el-table-column prop="Found Location" label="Found Location" width="150"></el-table-column>
+            <el-table-column prop="Found Date" label="Found Date" width="180" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Found Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Status" label="Status" width="100" ></el-table-column>
-            <el-table-column prop="Claim Date" label="Claim Date" width="180" >
+            <el-table-column prop="Status" label="Status" width="100"></el-table-column>
+            <el-table-column prop="Claim Date" label="Claim Date" width="180">
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Claim Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Claimant ID" label="Claimant" width="100" ></el-table-column>
-            <el-table-column prop="Updated By" label="Updated By" width="100" ></el-table-column>
-            <el-table-column>
-                <template #default="scope" width="100">
-                    <el-button type="primary" @click="toggleClaim(scope.row.id)">Claim</el-button>
+            <el-table-column prop="Claimant ID" label="Claimant" width="100"></el-table-column>
+            <el-table-column prop="Updated By" label="Updated By" width="100"></el-table-column>
+            <el-table-column width="100">
+                <template #default="scope">
+                    <div class="actions">
+                        <el-button type="primary" @click="toggleClaim(scope.row.id)">Claim</el-button>
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
+        <div v-show="!lostItems.length" class="empty-message">No lost items available.</div>
     </div>
     <AddLostItem @itemAdded="fetchItems" />
     <ClaimLostItem @itemClaimed="fetchItems" />
@@ -49,7 +52,10 @@ onMounted(async () => {
 const itemStore = useItemStore()
 
 async function fetchItems() {
-    lostItems.value = await fetchData('/lost/items')
+    const response = await fetchData('/lost/items')
+    if (response && response.data) {
+        lostItems.value = response.data
+    }
 }
 
 function toggleAdding() {
@@ -74,5 +80,11 @@ function formatTimestamp(timestamp) {
 <style scoped>
 .lost-items-container {
     margin-left: 50px;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 20px;
+    color: #999;
 }
 </style>

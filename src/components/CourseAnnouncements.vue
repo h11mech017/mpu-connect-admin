@@ -6,7 +6,7 @@
                 <Plus />
             </el-icon>
         </el-button>
-        <el-table :data="announcements" :default-sort="{ prop: 'Post Date', order: 'descending' }" class="table-container">
+        <el-table v-if="announcements.length" :data="announcements" :default-sort="{ prop: 'Post Date', order: 'descending' }" class="table-container">
             <el-table-column prop="Title" label="Title" width="180"></el-table-column>
             <el-table-column prop="Post Date" label="Post Date" width="180" sortable>
                 <template #default="scope">
@@ -28,6 +28,7 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div v-else class="empty-message">No announcements available.</div>
     </div>
 
     <AddCourseAnnouncement @announcementAdded="fetchAnnouncements" />
@@ -123,4 +124,14 @@ function formatTimestamp(timestamp) {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.table-container {
+    min-height: 200px;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+}
+</style>

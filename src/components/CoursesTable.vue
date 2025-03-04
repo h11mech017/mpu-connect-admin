@@ -39,5 +39,9 @@ async function handleRowClick(row) {
 </script>
 
 <style scoped>
-
+.empty-message {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+}
 </style>

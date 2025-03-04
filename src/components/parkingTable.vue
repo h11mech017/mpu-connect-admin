@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Parking Applications</h2>
-        <el-table :data="parkingApplications.data" :table-layout="auto" class="table-container">
+        <el-table v-if="parkingApplications.length" :data="parkingApplications" class="table-container">
             <el-table-column prop="Student ID" label="Student ID" width="100" />
             <el-table-column prop="Card valid till" label="Student Card valid till" width="200" sortable>
                 <template #default="scope">
@@ -25,6 +25,7 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div v-else class="empty-message">No parking applications available.</div>
     </div>
 </template>
 
@@ -40,8 +41,15 @@ const parkingApplications = ref([])
 const userStore = useUserStore();
 
 onMounted(async () => {
-    parkingApplications.value = await fetchData('/admin/parking/applications', userStore.token)
+    await fetchApplications()
 })
+
+async function fetchApplications() {
+    const response = await fetchData('/admin/parking/applications', userStore.token)
+    if (response && response.data) {
+        parkingApplications.value = response.data
+    }
+}
 
 
 function formatTimestamp(timestamp) {
@@ -57,7 +65,7 @@ async function approveParkingApplication(id) {
 
     if (response.status === 200) {
         ElMessage.success('Parking application approved')
-        parkingApplications.value = await fetchData('/admin/parking/applications', userStore.token)
+        await fetchApplications()
     }
 }
 
@@ -66,7 +74,7 @@ async function rejectParkingApplication(id) {
 
     if (response.status === 200) {
         ElMessage.success('Parking application rejected')
-        parkingApplications.value = await fetchData('/admin/parking/applications', userStore.token)
+        await fetchApplications()
     }
 }
 </script>
@@ -75,5 +83,10 @@ async function rejectParkingApplication(id) {
 .actions {
     display: flex;
     justify-content: center;
+}
+.empty-message {
+    text-align: center;
+    padding: 20px;
+    color: #999;
 }
 </style>

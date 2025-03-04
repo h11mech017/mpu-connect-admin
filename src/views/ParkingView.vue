@@ -1,6 +1,8 @@
 <template>
-    <NavigationBar role="Admin" />
-    <ParkingTable />
+    <div class="content">
+        <NavigationBar role="Admin" />
+        <ParkingTable />
+    </div>
 </template>
 
 <script setup>

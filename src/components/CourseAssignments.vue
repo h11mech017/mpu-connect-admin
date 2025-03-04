@@ -6,8 +6,13 @@
                 <Plus />
             </el-icon>
         </el-button>
-        <el-table :data="courseAssignments" class="table-container">
+        <el-table v-if="courseAssignments.length" :data="courseAssignments" class="table-container">
             <el-table-column prop="Title" label="Title" width="150" />
+            <el-table-column prop="Available Date" label="Available Date" width="120" sortable>
+                <template #default="scope">
+                    {{ formatTimestamp(scope.row['Available Date']) }}
+                </template>
+            </el-table-column>
             <el-table-column prop="Due Date" label="Due Date" width="120" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Due Date']) }}
@@ -29,6 +34,7 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div v-else class="empty-message">No course assignments available.</div>
     </div>
 
     <AddCourseAssignment @assignmentAdded="fetchCourseAssignments" />
@@ -133,4 +139,10 @@ function formatTimestamp(timestamp) {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.empty-message {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+}
+</style>

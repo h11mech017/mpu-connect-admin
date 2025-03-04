@@ -13,7 +13,7 @@
         </el-button>
         <input type="file" ref="fileInput" style="display: none" @change="handleFileChange" />
         <p v-if="selectedDirectory">chosen directory: {{ selectedDirectory }}</p>
-        <el-tree :data="fileTree" :props="defaultProps" node-key="path" @node-click="handleNodeClick" class="file-tree, table-container">
+        <el-tree v-if="fileTree.length" :data="fileTree" :props="defaultProps" node-key="path" @node-click="handleNodeClick" class="file-tree, table-container">
             <template #default="{ node, data }">
                 <span>{{ data.name }}</span>
                 <el-text v-if="data.type === 'file'" type="link" @click.stop="downloadFile(data.downloadUrl)"
@@ -22,6 +22,7 @@
                     class="link">Delete</el-text>
             </template>
         </el-tree>
+        <div v-else class="empty-message">No course files available.</div>
     </div>
 </template>
 
@@ -216,5 +217,11 @@ async function handleFileChange(event) {
 .link {
     margin: 10px;
     text-decoration: underline;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 20px;
+    color: #999;
 }
 </style>

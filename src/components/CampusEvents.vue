@@ -1,12 +1,11 @@
 <template>
     <div>
-        <h2>Events</h2>
         <el-button type="primary" @click="toggleAdding">Add New Event
             <el-icon class="el-icon--right">
                 <Plus />
             </el-icon>
         </el-button>
-        <el-table :data="campusEvents" :table-layout="auto" class="table-container">
+        <el-table v-if="campusEvents.length" :data="campusEvents" class="table-container">
             <el-table-column prop="Headline" label="Headline" width="200" />
             <el-table-column prop="Post Date" label="Post Date" width="180" sortable>
                 <template #default="scope">
@@ -37,6 +36,7 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div v-else class="empty-message">No campus events available.</div>
     </div>
 
     <AddcampusEvent @eventAdded="fetchCampusEvents" />
@@ -130,4 +130,10 @@ function formatTimestamp(timestamp) {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.empty-message {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+}
+</style>

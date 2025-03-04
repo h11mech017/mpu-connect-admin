@@ -1,6 +1,11 @@
 <template>
   <div>
-    <RouterView />
+    <header class="header">
+      <img src="./assets/mpu_logo.png" alt="Logo" class="logo" />
+    </header>
+    <div class="main-content">
+      <RouterView />
+    </div>
   </div>
 </template>
 
@@ -24,6 +29,28 @@ onMounted(async () => {
 </script>
 
 <style>
+.header {
+  background-color: green;
+  height: 12vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+
+.logo {
+  height: 90%;
+}
+
+.main-content {
+  display: flex;
+  margin-top: 12vh;
+}
+
 .el-button {
   margin: 10px;
 }
