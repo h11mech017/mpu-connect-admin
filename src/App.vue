@@ -47,11 +47,26 @@ onMounted(async () => {
 }
 
 .main-content {
-  display: flex;
+  width: 100%;
   margin-top: 12vh;
+  margin-left: 5%;
 }
 
 .el-button {
   margin: 10px;
+}
+
+.table-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.button-right {
+  text-align: end;
 }
 </style>

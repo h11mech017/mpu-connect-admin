@@ -1,25 +1,28 @@
 <template>
     <div>
         <h2>Course Announcements</h2>
-        <el-button type="primary" @click="toggleAdding">Add Announcement
-            <el-icon class="el-icon--right">
-                <Plus />
-            </el-icon>
-        </el-button>
-        <el-table v-if="announcements.length" :data="announcements" :default-sort="{ prop: 'Post Date', order: 'descending' }" class="table-container">
-            <el-table-column prop="Title" label="Title" width="180"></el-table-column>
-            <el-table-column prop="Post Date" label="Post Date" width="180" sortable>
+        <div class="button-right">
+            <el-button type="primary" @click="toggleAdding">Add Announcement
+                <el-icon class="el-icon--right">
+                    <Plus />
+                </el-icon>
+            </el-button>
+        </div>
+        <el-table v-if="announcements.length" :data="announcements"
+            :default-sort="{ prop: 'Post Date', order: 'descending' }" class="table-container">
+            <el-table-column prop="Title" label="Title"></el-table-column>
+            <el-table-column prop="Post Date" label="Post Date" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Post Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="is Test" label="Is Test" width="100"></el-table-column>
-            <el-table-column prop="Test Date" label="Test Date" width="180" sortable>
+            <el-table-column prop="is Test" label="Is Test" />
+            <el-table-column prop="Test Date" label="Test Date" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Test Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column width="200">
+            <el-table-column>
                 <template #default="scope">
                     <div class="actions">
                         <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>

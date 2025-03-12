@@ -15,8 +15,8 @@
             </div>
         </el-dialog>
         <el-table :data="attendanceDetail.Students" class="table-container">
-            <el-table-column prop="Student ID" label="Student ID" width="100"></el-table-column>
-            <el-table-column prop="Name" label="Student Name" width="200"></el-table-column>
+            <el-table-column prop="Student ID" label="Student ID" ></el-table-column>
+            <el-table-column prop="Name" label="Student Name"></el-table-column>
             <el-table-column prop="Status" label="Status" width="100"></el-table-column>
             <el-table-column label="Actions" width="250">
                 <template #default="scope">
@@ -117,7 +117,7 @@ let qrCodeInterval
 
 function startQrCodeRefresh() {
     generateQrCodeValue()
-    qrCodeInterval = setInterval(generateQrCodeValue, 10000)
+    qrCodeInterval = setInterval(generateQrCodeValue, 5000)
 }
 
 function stopQrCodeRefresh() {

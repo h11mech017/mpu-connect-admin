@@ -1,32 +1,30 @@
 <template>
-    <div>
-        <h2>Parking Applications</h2>
-        <el-table v-if="parkingApplications.length" :data="parkingApplications" class="table-container">
-            <el-table-column prop="Student ID" label="Student ID" width="100" />
-            <el-table-column prop="Card valid till" label="Student Card valid till" width="200" sortable>
-                <template #default="scope">
-                    {{ formatTimestamp(scope.row['Card valid till']) }}
-                </template>
-            </el-table-column>
-            <el-table-column prop="Name" label="Name" width="120" />
-            <el-table-column prop="Motorcycle Plate No" label="Motorcycle Plate No." width="100" />
-            <el-table-column prop="Applied At" label="Applied At" width="200" sortable>
-                <template #default="scope">
-                    {{ formatTimestamp(scope.row['Applied At']) }}
-                </template>
-            </el-table-column>
-            <el-table-column prop="Status" label="Status" width="130" sortable />
-            <el-table-column width="220">
-                <template #default="scope">
-                    <div class="actions">
-                        <el-button type="primary" @click="approveParkingApplication(scope.row.id)">Approve</el-button>
-                        <el-button type="danger" @click="rejectParkingApplication(scope.row.id)">Reject</el-button>
-                    </div>
-                </template>
-            </el-table-column>
-        </el-table>
-        <div v-else class="empty-message">No parking applications available.</div>
-    </div>
+    <h2>Parking Applications</h2>
+    <el-table v-if="parkingApplications.length" :data="parkingApplications" class="table-container">
+        <el-table-column prop="Student ID" label="Student ID" />
+        <el-table-column prop="Card valid till" label="Student Card valid till" sortable>
+            <template #default="scope">
+                {{ formatTimestamp(scope.row['Card valid till']) }}
+            </template>
+        </el-table-column>
+        <el-table-column prop="Name" label="Name" />
+        <el-table-column prop="Motorcycle Plate No" label="Motorcycle Plate No." />
+        <el-table-column prop="Applied At" label="Applied At" sortable>
+            <template #default="scope">
+                {{ formatTimestamp(scope.row['Applied At']) }}
+            </template>
+        </el-table-column>
+        <el-table-column prop="Status" label="Status" sortable />
+        <el-table-column>
+            <template #default="scope">
+                <div class="actions">
+                    <el-button type="primary" @click="approveParkingApplication(scope.row.id)">Approve</el-button>
+                    <el-button type="danger" @click="rejectParkingApplication(scope.row.id)">Reject</el-button>
+                </div>
+            </template>
+        </el-table-column>
+    </el-table>
+    <div v-else class="empty-message">No parking applications available.</div>
 </template>
 
 <script setup>
@@ -84,6 +82,7 @@ async function rejectParkingApplication(id) {
     display: flex;
     justify-content: center;
 }
+
 .empty-message {
     text-align: center;
     padding: 20px;

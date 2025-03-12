@@ -24,10 +24,8 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -63,6 +61,10 @@ button:focus-visible {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.el-tree-node__content {
+  width: 100%;
 }
 
 @media (prefers-color-scheme: light) {

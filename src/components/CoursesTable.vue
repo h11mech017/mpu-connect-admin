@@ -2,11 +2,11 @@
     <div>
         <h2>Courses</h2>
         <el-table :data="courses.data" @row-click="handleRowClick" class="table-container">
-            <el-table-column prop="Course['Course Code']" label="Course Code" width="100" />
-            <el-table-column prop="Course['Course Name']" label="Course Name" width="180" />
-            <el-table-column prop="Section" label="Section" width="90" />
-            <el-table-column prop="Semester" label="Semester" width="90" />
-            <el-table-column prop="Academic Year" label="Accademic Year" width="150" />
+            <el-table-column prop="Course['Course Code']" label="Course Code" />
+            <el-table-column prop="Course['Course Name']" label="Course Name" />
+            <el-table-column prop="Section" label="Section" />
+            <el-table-column prop="Semester" label="Semester" />
+            <el-table-column prop="Academic Year" label="Accademic Year" />
         </el-table>
     </div>
 </template>
@@ -39,9 +39,5 @@ async function handleRowClick(row) {
 </script>
 
 <style scoped>
-.empty-message {
-    text-align: center;
-    padding: 20px;
-    color: #999;
-}
+
 </style>

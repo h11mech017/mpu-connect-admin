@@ -1,34 +1,34 @@
 <template>
-    <div>
-        <h2>Course Attendance</h2>
-        <el-button type="primary" @click="addAttendance">Take Attendance
+    <h2>Course Attendance</h2>
+    <div class="button-right">
+        <el-button type="primary" @click="addAttendance" class="button">Take Attendance
             <el-icon class="el-icon--right">
                 <Plus />
             </el-icon>
         </el-button>
-        <el-table v-if="attendanceRecords.length" :data="attendanceRecords"
-        :default-sort="{ prop: 'Class Date', order: 'descending' }" class="table-container">
-            <el-table-column prop="Section" label="Section" width="100"></el-table-column>
-            <el-table-column prop="Class Date" label="Class Date" width="180" sortable>
-                <template #default="scope">
-                    {{ formatTimestamp(scope.row['Class Date']) }}
-                </template>
-            </el-table-column>
-            <el-table-column prop="Updated At" label="Updated At" width="180" sortable>
-                <template #default="scope">
-                    {{ formatTimestamp(scope.row['Updated At']) }}
-                </template>
-            </el-table-column>
-            <el-table-column width="150">
-                <template #default="scope">
-                    <div class="actions">
-                        <el-button type="primary" @click="editAttendance(scope.row.id)">Enter</el-button>
-                    </div>
-                </template>
-            </el-table-column>
-        </el-table>
-        <div v-else class="empty-message">No attendance records available.</div>
     </div>
+    <el-table v-if="attendanceRecords.length" :data="attendanceRecords"
+        :default-sort="{ prop: 'Class Date', order: 'descending' }" class="table-container">
+        <el-table-column prop="Section" label="Section"></el-table-column>
+        <el-table-column prop="Class Date" label="Class Date" sortable>
+            <template #default="scope">
+                {{ formatTimestamp(scope.row['Class Date']) }}
+            </template>
+        </el-table-column>
+        <el-table-column prop="Updated At" label="Updated At" sortable>
+            <template #default="scope">
+                {{ formatTimestamp(scope.row['Updated At']) }}
+            </template>
+        </el-table-column>
+        <el-table-column>
+            <template #default="scope">
+                <div class="actions">
+                    <el-button type="primary" @click="editAttendance(scope.row.id)">Enter</el-button>
+                </div>
+            </template>
+        </el-table-column>
+    </el-table>
+    <div v-else class="empty-message">No attendance records available.</div>
 </template>
 
 <script setup>

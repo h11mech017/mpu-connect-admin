@@ -1,25 +1,27 @@
 <template>
     <div>
         <h2>Course Assignments</h2>
-        <el-button type="primary" @click="toggleAdding">Create New Assignment
-            <el-icon class="el-icon--right">
-                <Plus />
-            </el-icon>
-        </el-button>
+        <div class="button-right">
+            <el-button type="primary" @click="toggleAdding">Create New Assignment
+                <el-icon class="el-icon--right">
+                    <Plus />
+                </el-icon>
+            </el-button>
+        </div>
         <el-table v-if="courseAssignments.length" :data="courseAssignments" class="table-container">
-            <el-table-column prop="Title" label="Title" width="150" />
-            <el-table-column prop="Available Date" label="Available Date" width="120" sortable>
+            <el-table-column prop="Title" label="Title"/>
+            <el-table-column prop="Available Date" label="Available Date" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Available Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Due Date" label="Due Date" width="120" sortable>
+            <el-table-column prop="Due Date" label="Due Date" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Due Date']) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="Highest Score" label="Highest Possible Score" width="120" />
-            <el-table-column prop="Submission Deadline" label="Submission Deadline" width="120" sortable>
+            <el-table-column prop="Highest Score" label="Highest Possible Score" />
+            <el-table-column prop="Submission Deadline" label="Submission Deadline" sortable>
                 <template #default="scope">
                     {{ formatTimestamp(scope.row['Submission Deadline']) }}
                 </template>

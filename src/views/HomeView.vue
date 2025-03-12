@@ -53,14 +53,4 @@ onMounted(async () => {
 })
 </script>
 
-<style>
-.table-container {
-  background-color: white;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 16px;
-  width: 100%;
-  box-sizing: border-box;
-}
-</style>
+<style></style>

@@ -1,19 +1,22 @@
 <template>
     <div>
         <h2>Course Files</h2>
-        <el-button type="primary" @click="triggerFileUpload">
-            Upload<el-icon class="el-icon--right">
-                <Upload />
-            </el-icon>
-        </el-button>
-        <el-button type="primary" @click="newFolderUpload">
-            Create New Folder<el-icon class="el-icon--right">
-                <Folder />
-            </el-icon>
-        </el-button>
+        <div class="button-right">
+            <el-button type="primary" @click="triggerFileUpload">
+                Upload<el-icon class="el-icon--right">
+                    <Upload />
+                </el-icon>
+            </el-button>
+            <el-button type="primary" @click="newFolderUpload">
+                Create New Folder<el-icon class="el-icon--right">
+                    <Folder />
+                </el-icon>
+            </el-button>
+        </div>
         <input type="file" ref="fileInput" style="display: none" @change="handleFileChange" />
         <p v-if="selectedDirectory">chosen directory: {{ selectedDirectory }}</p>
-        <el-tree v-if="fileTree.length" :data="fileTree" :props="defaultProps" node-key="path" @node-click="handleNodeClick" class="file-tree, table-container">
+        <el-tree v-if="fileTree.length" :data="fileTree" :props="defaultProps" node-key="path"
+            @node-click="handleNodeClick" class="file-tree, table-container">
             <template #default="{ node, data }">
                 <span>{{ data.name }}</span>
                 <el-text v-if="data.type === 'file'" type="link" @click.stop="downloadFile(data.downloadUrl)"
@@ -209,7 +212,6 @@ async function handleFileChange(event) {
 
 <style scoped>
 .file-tree {
-    width: 500px;
     padding: 20px;
     margin: 0 auto;
 }
