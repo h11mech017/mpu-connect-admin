@@ -10,7 +10,7 @@
                 class="table-container"
                 :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
                 border
-                style="width: 100%"
+                style="width: 80%"
                 :fit="true"
                 size="small"
             >
@@ -63,6 +63,11 @@ async function handleRowClick(row) {
     max-width: 1200px;
     margin: 0 auto;
     background-color: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
 }
 
 .page-title-container {
@@ -91,6 +96,10 @@ async function handleRowClick(row) {
 .table-wrapper {
     margin-bottom: 24px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     overflow-x: auto;
     background-color: var(--card-bg);
 }
@@ -98,8 +107,8 @@ async function handleRowClick(row) {
 .table-container {
     border-radius: var(--border-radius-md);
     overflow: hidden;
-    width: 100%;
-    max-width: 100%;
+    width: 80% !important;
+    margin: 0 auto;
     box-shadow: var(--shadow-sm);
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
