@@ -82,7 +82,47 @@ const courseStore = useCourseStore()
   left: 0;
   width: 24vh;
   height: calc(100vh - 12vh);
-  background-color: grey;
+  background-color: #f0f2f5;
   z-index: 100;
+  box-shadow: var(--shadow-md);
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 16px;
+}
+
+:deep(.el-menu) {
+  border-right: none;
+  background-color: transparent;
+}
+
+:deep(.el-menu-item) {
+  height: 50px;
+  line-height: 50px;
+  margin: 8px 12px;
+  border-radius: var(--border-radius-md);
+  color: var(--text-dark);
+  transition: all var(--transition-speed) ease;
+}
+
+:deep(.el-menu-item.is-active) {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+}
+
+:deep(.el-menu-item:hover) {
+  background-color: rgba(29, 139, 78, 0.1);
+}
+
+:deep(.el-menu-item.is-active:hover) {
+  background-color: var(--primary-light);
+}
+
+:deep(.el-menu-item .el-icon) {
+  margin-right: 12px;
+  font-size: 18px;
+  color: inherit;
+}
+
+:deep(.el-menu-item span) {
+  font-weight: 500;
 }
 </style>

@@ -47,21 +47,50 @@ async function logout() {
 </script>
 
 <style>
+:root {
+  --primary-color: #1d8b4e; /* Slightly darker green for better contrast */
+  --primary-light: #2aa967; /* Lighter green for hover states */
+  --primary-dark: #156e3d; /* Darker green for active states */
+  --accent-color: #ffd04b; /* Yellow accent color from the current design */
+  --text-light: #ffffff;
+  --text-dark: #333333;
+  --background-light: #f5f7fa;
+  --card-bg: #ffffff;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+  --transition-speed: 0.3s;
+}
+
+body {
+  background-color: var(--card-bg);
+  color: var(--text-dark);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .header {
-  background-color: green;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
   height: 12vh;
   width: 100%;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 24px;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 101;
+  box-shadow: var(--shadow-md);
 }
 
 .logo {
-  height: 90%;
+  height: 80%;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .logout-container {
@@ -75,25 +104,26 @@ async function logout() {
   justify-content: center;
   gap: 8px;
   background-color: rgba(255, 255, 255, 0.15);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
+  color: var(--text-light);
+  padding: 10px 18px;
+  border-radius: var(--border-radius-xl);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-speed) ease;
+  box-shadow: var(--shadow-sm);
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 500;
 }
 
 .modern-logout-btn:hover {
   background-color: rgba(255, 255, 255, 0.25);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
 .modern-logout-btn:active {
   transform: translateY(0);
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .logout-text {
@@ -106,26 +136,73 @@ async function logout() {
 }
 
 .main-content {
-  width: 100%;
+  width: calc(100% - 24vh);
   margin-top: 12vh;
-  margin-left: 5%;
+  margin-left: 24vh;
+  padding: 24px 16px;
+  transition: all var(--transition-speed) ease;
+  box-sizing: border-box;
+  background-color: var(--card-bg);
+  min-height: calc(100vh - 12vh);
 }
 
+/* Element Plus overrides */
 .el-button {
-  margin: 10px;
+  margin: 8px;
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-speed) ease;
+  font-weight: 500;
+}
+
+.el-button--primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.el-button--primary:hover, .el-button--primary:focus {
+  background-color: var(--primary-light);
+  border-color: var(--primary-light);
+}
+
+.el-button--primary:active {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.el-input__inner {
+  border-radius: var(--border-radius-md);
+}
+
+.el-form-item {
+  margin-bottom: 20px;
 }
 
 .table-container {
-  background-color: white;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 16px;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  margin-top: 24px;
   width: 100%;
   box-sizing: border-box;
+  transition: all var(--transition-speed) ease;
+}
+
+.table-container:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .button-right {
   text-align: end;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: calc(12vh + 16px);
+    padding-right: 5%;
+  }
 }
 </style>

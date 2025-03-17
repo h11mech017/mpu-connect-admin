@@ -1,14 +1,27 @@
 <template>
-    <div>
-        <h2>Course Assignments</h2>
-        <div class="button-right">
-            <el-button type="primary" @click="toggleAdding">Create New Assignment
-                <el-icon class="el-icon--right">
-                    <Plus />
-                </el-icon>
-            </el-button>
+    <div class="page-container">
+        <div class="page-title-container">
+            <h2 class="page-title">Course Assignments</h2>
         </div>
-        <el-table v-if="courseAssignments.length" :data="courseAssignments" class="table-container">
+        <div class="page-actions-container">
+            <div class="page-actions">
+                <el-button type="primary" @click="toggleAdding" class="add-button">
+                    <i class="el-icon-plus"></i>
+                    Create New Assignment
+                </el-button>
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <el-table 
+                v-if="courseAssignments.length" 
+                :data="courseAssignments" 
+                class="table-container"
+                :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
+                border
+                style="width: 100%"
+                :fit="true"
+                size="small"
+            >
             <el-table-column prop="Title" label="Title"/>
             <el-table-column prop="Available Date" label="Available Date" sortable>
                 <template #default="scope">
@@ -35,12 +48,17 @@
                     </div>
                 </template>
             </el-table-column>
-        </el-table>
-        <div v-else class="empty-message">No course assignments available.</div>
-    </div>
+            </el-table>
+            <div v-if="!courseAssignments.length" class="empty-state">
+                <i class="el-icon-document-checked empty-icon"></i>
+                <p class="empty-message">No course assignments available.</p>
+                <el-button type="primary" @click="toggleAdding">Create First Assignment</el-button>
+            </div>
+        </div>
 
-    <AddCourseAssignment @assignmentAdded="fetchCourseAssignments" />
-    <EditCourseAssignment @assignmentUpdated="fetchCourseAssignments" />
+        <AddCourseAssignment @assignmentAdded="fetchCourseAssignments" />
+        <EditCourseAssignment @assignmentUpdated="fetchCourseAssignments" />
+    </div>
 </template>
 
 <script setup>
@@ -142,9 +160,91 @@ function formatTimestamp(timestamp) {
 </script>
 
 <style scoped>
+.page-container {
+    padding: 0 0 32px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    background-color: var(--card-bg);
+}
+
+.page-title-container {
+    margin-bottom: 8px;
+    padding: 0 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 12px;
+}
+
+.page-actions-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+    padding: 0 8px;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.page-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.table-wrapper {
+    margin-bottom: 24px;
+    width: 100%;
+    overflow-x: auto;
+    background-color: var(--card-bg);
+}
+
+.table-container {
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.empty-icon {
+    font-size: 48px;
+    color: #c0c4cc;
+    margin-bottom: 16px;
+}
+
 .empty-message {
     text-align: center;
-    padding: 20px;
-    color: #999;
+    font-size: 16px;
+    color: #909399;
+    margin-bottom: 24px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
 }
 </style>

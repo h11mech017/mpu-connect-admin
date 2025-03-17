@@ -1,6 +1,8 @@
 <template>
     <div>
-        <h2>Course Files</h2>
+        <div class="page-title-container">
+            <h2 class="page-title">Course Files</h2>
+        </div>
         <div class="button-right">
             <el-button type="primary" @click="triggerFileUpload">
                 Upload<el-icon class="el-icon--right">
@@ -211,6 +213,22 @@ async function handleFileChange(event) {
 </script>
 
 <style scoped>
+.page-title-container {
+    margin-bottom: 8px;
+    padding: 0 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 12px;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
 .file-tree {
     padding: 20px;
     margin: 0 auto;
