@@ -82,4 +82,22 @@ const router = createRouter({
     ]
 })
 
+// Navigation guards for authentication
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem('userToken');
+    
+    // If route is not login and user is not authenticated, redirect to login
+    if (to.path !== '/login' && !token) {
+        next('/login');
+    } 
+    // If route is login and user is already authenticated, redirect to home
+    else if (to.path === '/login' && token) {
+        next('/home');
+    } 
+    // Otherwise proceed as normal
+    else {
+        next();
+    }
+});
+
 export default router;

@@ -28,6 +28,8 @@
                         placeholder="Pick a date and time" format="DD/MM/YYYY HH:mm:ss" value-format="x">
                     </el-date-picker>
                 </el-form-item>
+                <!-- Hidden Status field to ensure it's always included -->
+                <input type="hidden" v-model="itemStore.formData['Status']" />
                 <el-form-item>
                     <el-button type="primary" @click="submitForm">Submit</el-button>
                     <el-button @click="resetForm">Reset</el-button>
@@ -48,13 +50,21 @@ const itemStore = useItemStore()
 const userStore = useUserStore()
 
 onMounted(() => {
-    itemStore.setFormData({ ...itemStore.initialFormState })
+    // Make a deep copy of the initial form state to ensure all fields are initialized properly
+    const initialData = JSON.parse(JSON.stringify(itemStore.initialFormState))
+    itemStore.setFormData(initialData)
+    console.log('Form initialized with:', JSON.stringify(initialData))
 })
 
 const emit = defineEmits(['itemAdded'])
 
 async function submitForm() {
     try {
+        // Ensure Status field is included
+        if (!itemStore.formData['Status']) {
+            itemStore.formData['Status'] = 'Waiting to be claimed'
+        }
+
         itemStore.formData['Found Location'] = itemStore.formData['Location'] + ' ' + itemStore.formData['Remark']
         delete itemStore.formData['Location']
         delete itemStore.formData['Remark']
@@ -65,22 +75,27 @@ async function submitForm() {
             _nanoseconds: (date.getMilliseconds() * 1e6)
         }
 
+        console.log('Submitting form data:', JSON.stringify(itemStore.formData))
+
         const response = await postData('/admin/lost/item/add', userStore.token, itemStore.formData);
         if (response.status === 200) {
             ElMessage.success('Item added successfully')
+            resetForm()
+            emit('itemAdded')
+            itemStore.setIsAdding(false)
         } else {
             ElMessage.error('Failed to add item')
         }
-        resetForm()
-        emit('itemAdded')
-        itemStore.setIsAdding(false)
     } catch (error) {
         ElMessage.error('There was an error adding the item: ' + error.message)
     }
 }
 
 function resetForm() {
-    itemStore.setFormData({ ...itemStore.initialFormState })
+    // Make a deep copy of the initial form state to ensure all fields are reset properly
+    const resetData = JSON.parse(JSON.stringify(itemStore.initialFormState))
+    itemStore.setFormData(resetData)
+    console.log('Form reset to:', JSON.stringify(resetData))
 }
 
 

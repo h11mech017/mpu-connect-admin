@@ -10,12 +10,15 @@ export const useItemStore = defineStore("item", () => {
     const locations = ref([])
     const subCategories = ref([])
 
+    // Define the initial form state with all required fields
     const initialFormState = {
         'Category': '',
         'Description': '',
         'Found Location': '',
         'Found Date': '',
-        'Status': 'Waiting to be claimed',
+        'Status': 'Waiting to be claimed', // Ensure Status is always included with default value
+        'Location': '',
+        'Remark': ''
     }
 
     const setIsAdding = (value) => {

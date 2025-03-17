@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-dialog v-model="itemStore.isClaiming">
-            <el-form :model="itemStore.formData">
+            <el-form :model="itemStore.formData" @submit.prevent @keyup.enter="submitForm">
                 <el-form-item label="Claimant ID">
                     <el-input v-model="itemStore.formData['Claimant ID']"></el-input>
                 </el-form-item>
@@ -35,18 +35,24 @@ const emit = defineEmits(['itemClaimed'])
 
 async function submitForm() {
     try {
+        // Check if Claimant ID is empty
+        if (!itemStore.formData['Claimant ID'] || itemStore.formData['Claimant ID'].trim() === '') {
+            ElMessage.error('Claimant ID cannot be empty')
+            return
+        }
+        
         console.log(itemStore.formData);
         const response = await putData('/admin/lost/item/claim', userStore.token, itemStore.itemId, itemStore.formData)
         if (response.status === 200) {
             ElMessage.success('Item claimed successfully')
+            resetForm()
+            emit('itemClaimed')
+            itemStore.setIsClaiming(false)
         } else {
             ElMessage.error('Failed to claim item')
         }
-        resetForm()
-        emit('itemClaimed')
-        itemStore.setIsClaiming(false)
     } catch (error) {
-        ElMessage.error('There was an error claim the item: ' + error.message)
+        ElMessage.error('There was an error claiming the item: ' + error.message)
     }
 }
 

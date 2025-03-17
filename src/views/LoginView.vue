@@ -3,7 +3,7 @@
         <h1>Login</h1>
         <el-form @submit.prevent="handleLogin">
             <el-input v-model="id" type="text" placeholder="ID" required />
-            <el-input v-model="password" type="password" placeholder="Password" required />
+            <el-input v-model="password" type="password" placeholder="Password" required @keyup.enter="handleLogin" />
             <el-button @click="handleLogin">Login</el-button>
         </el-form>
     </div>
