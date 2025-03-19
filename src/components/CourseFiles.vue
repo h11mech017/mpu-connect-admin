@@ -229,6 +229,17 @@ async function handleFileChange(event) {
     align-items: center;
 }
 
+.table-container {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  margin-top: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all var(--transition-speed) ease;
+}
+
 .file-tree {
     padding: 20px;
     margin: 0 auto;

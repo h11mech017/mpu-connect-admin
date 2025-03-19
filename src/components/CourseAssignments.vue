@@ -18,9 +18,7 @@
                 class="table-container"
                 :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
                 border
-                style="width: 100%"
-                :fit="true"
-                size="small"
+
             >
             <el-table-column prop="Title" label="Title"/>
             <el-table-column prop="Available Date" label="Available Date" sortable>
@@ -160,74 +158,11 @@ function formatTimestamp(timestamp) {
 </script>
 
 <style scoped>
-.page-container {
-    padding: 0 0 32px;
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 100%;
-    background-color: var(--card-bg);
-}
+/* Page layout styles moved to global CSS in App.vue */
 
-.page-title-container {
-    margin-bottom: 8px;
-    padding: 0 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding-bottom: 12px;
-}
+/* Table styles moved to global CSS in App.vue */
 
-.page-actions-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-    padding: 0 8px;
-}
-
-.page-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin: 0;
-    display: flex;
-    align-items: center;
-}
-
-.page-actions {
-    display: flex;
-    gap: 12px;
-}
-
-.add-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.table-wrapper {
-    margin-bottom: 24px;
-    width: 100%;
-    overflow-x: auto;
-    background-color: var(--card-bg);
-}
-
-.table-container {
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-    width: 100%;
-    max-width: 100%;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 0;
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
-}
+/* Empty state styles moved to global CSS in App.vue */
 
 .empty-icon {
     font-size: 48px;

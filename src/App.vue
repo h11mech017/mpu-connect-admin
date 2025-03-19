@@ -48,10 +48,14 @@ async function logout() {
 
 <style>
 :root {
-  --primary-color: #1d8b4e; /* Slightly darker green for better contrast */
-  --primary-light: #2aa967; /* Lighter green for hover states */
-  --primary-dark: #156e3d; /* Darker green for active states */
-  --accent-color: #ffd04b; /* Yellow accent color from the current design */
+  --primary-color: #1d8b4e;
+  /* Slightly darker green for better contrast */
+  --primary-light: #2aa967;
+  /* Lighter green for hover states */
+  --primary-dark: #156e3d;
+  /* Darker green for active states */
+  --accent-color: #ffd04b;
+  /* Yellow accent color from the current design */
   --text-light: #ffffff;
   --text-dark: #333333;
   --background-light: #f5f7fa;
@@ -136,9 +140,9 @@ body {
 }
 
 .main-content {
-  width: calc(100% - 24vh);
+  width: 100%;
   margin-top: 12vh;
-  margin-left: 24vh;
+  margin-left: 10vh;
   padding: 24px 16px;
   transition: all var(--transition-speed) ease;
   box-sizing: border-box;
@@ -146,57 +150,101 @@ body {
   min-height: calc(100vh - 12vh);
 }
 
-/* Element Plus overrides */
 .el-button {
   margin: 8px;
   border-radius: var(--border-radius-md);
   transition: all var(--transition-speed) ease;
-  font-weight: 500;
 }
 
-.el-button--primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-.el-button--primary:hover, .el-button--primary:focus {
-  background-color: var(--primary-light);
-  border-color: var(--primary-light);
-}
-
-.el-button--primary:active {
-  background-color: var(--primary-dark);
-  border-color: var(--primary-dark);
-}
-
-.el-input__inner {
-  border-radius: var(--border-radius-md);
-}
-
-.el-form-item {
-  margin-bottom: 20px;
+.actions {
+  display: flex;
+  justify-content: center;
 }
 
 .table-container {
   background-color: var(--card-bg);
   border-radius: var(--border-radius-lg);
-  padding: 24px;
   box-shadow: var(--shadow-md);
-  margin-top: 24px;
-  width: 100%;
-  box-sizing: border-box;
-  transition: all var(--transition-speed) ease;
+  overflow-x: visible;
 }
 
 .table-container:hover {
   box-shadow: var(--shadow-lg);
 }
 
-.button-right {
-  text-align: end;
+.table-wrapper {
+  margin-bottom: 24px;
+  width: 100%;
+  background-color: var(--card-bg);
+  overflow-x: visible;
 }
 
-/* Responsive adjustments */
+.page-container {
+  padding: 0 0 32px;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  background-color: var(--card-bg);
+}
+
+.page-title-container {
+  margin-bottom: 8px;
+  padding: 0 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 12px;
+}
+
+.page-actions-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.page-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.empty-icon {
+  font-size: 48px;
+  color: #c0c4cc;
+  margin-bottom: 16px;
+}
+
+.empty-message {
+  text-align: center;
+  font-size: 16px;
+  color: #909399;
+  margin-bottom: 16px;
+}
+
 @media (max-width: 768px) {
   .main-content {
     width: 90%;

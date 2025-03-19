@@ -21,9 +21,6 @@
                 :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
                 :row-class-name="tableRowClassName"
                 border
-                style="width: 100%"
-                :fit="true"
-                size="small"
             >
                 <el-table-column type="index" width="50"></el-table-column>
                 <el-table-column prop="Category" label="Category" width="100"></el-table-column>
@@ -52,10 +49,10 @@
                 </el-table-column>
                 <el-table-column prop="Claimant ID" label="Claimant" width="100"></el-table-column>
                 <el-table-column prop="Updated By" label="Updated By" width="100"></el-table-column>
-                <el-table-column fixed="right" label="Actions" width="80">
+                <el-table-column label="Actions" >
                     <template #default="scope">
                         <div class="actions">
-                            <el-button type="primary" size="small" @click="toggleClaim(scope.row.id)" class="action-button">
+                            <el-button type="primary" @click="toggleClaim(scope.row.id)" class="action-button">
                                 Claim
                             </el-button>
                         </div>
@@ -178,21 +175,9 @@ function tableRowClassName({row, rowIndex}) {
     gap: 8px;
 }
 
-.table-wrapper {
-    margin-bottom: 24px;
-    width: 100%;
-    overflow-x: auto;
-    background-color: var(--card-bg);
-}
+/* Table styles moved to global CSS in App.vue */
 
-.table-container {
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-    width: 100%;
-    max-width: 100%;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
+/* Table container styles moved to global CSS in App.vue */
 
 .date-cell {
     font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
@@ -203,10 +188,6 @@ function tableRowClassName({row, rowIndex}) {
     padding: 4px 8px;
     border-radius: 12px;
     font-weight: 500;
-}
-
-.action-button {
-    padding: 6px 12px;
 }
 
 .empty-state {
