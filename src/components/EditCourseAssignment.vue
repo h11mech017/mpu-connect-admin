@@ -108,16 +108,23 @@ async function submitForm() {
         }
     }
     formData.set('formData', JSON.stringify(assignmentStore.formData))
-    const response = await uploadFile(`/user/courses/${assignmentStore.formData.courseId}/assignments/${assignmentStore.assignmentId}/update`, userStore.token, formData)
 
-    if (response.status === 200) {
-        ElMessage.success('Assignment updated successfully');
-        formData.delete('formData')
-        formData.delete('files')
-        emit('assignmentUpdated')
-        toggleEditing()
-    } else {
-        ElMessage.error('Failed to update assignment');
+    try {
+        const response = await uploadFile(`/user/courses/${assignmentStore.formData.courseId}/assignments/${assignmentStore.assignmentId}/update`, userStore.token, formData)
+
+        if (response && response.status === 200) {
+            ElMessage.success('Assignment updated successfully');
+            formData.delete('formData')
+            formData.delete('files')
+            emit('assignmentUpdated')
+            toggleEditing()
+        } else {
+            const errorMessage = response?.error || 'Failed to update assignment';
+            ElMessage.error(errorMessage);
+        }
+    } catch (error) {
+        console.error('Error updating assignment:', error);
+        ElMessage.error('An unexpected error occurred while updating the assignment');
     }
 }
 

@@ -69,6 +69,7 @@ export async function uploadFile(endpoint, token, formData) {
         return response
     } catch (error) {
         ElMessage.error('Error posting data')
+        return { status: 500, error: error.message }
     }
 }
 
