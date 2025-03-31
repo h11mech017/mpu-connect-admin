@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL_TEST,
+    baseURL: import.meta.env.VITE_BACKEND_URL,
 })
 
 export async function checkRole(token) {
@@ -88,7 +88,7 @@ export async function deleteFile(endpoint, token, filepath) {
 
 export async function putData(endpoint, token, id, data) {
     try {
-        const response = await api.put(endpoint, {id, data}, {
+        const response = await api.put(endpoint, { id, data }, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
