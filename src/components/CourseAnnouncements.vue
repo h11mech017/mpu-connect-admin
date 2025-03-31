@@ -12,34 +12,29 @@
             </div>
         </div>
         <div class="table-wrapper">
-            <el-table 
-                v-if="announcements.length" 
-                :data="announcements"
-                :default-sort="{ prop: 'Post Date', order: 'descending' }" 
-                class="table-container"
-                :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
-                border
-            >
-            <el-table-column prop="Title" label="Title"></el-table-column>
-            <el-table-column prop="Post Date" label="Post Date" sortable>
-                <template #default="scope">
-                    {{ formatTimestamp(scope.row['Post Date']) }}
-                </template>
-            </el-table-column>
-            <el-table-column prop="is Test" label="Is Test" />
-            <el-table-column prop="Test Date" label="Test Date" sortable>
-                <template #default="scope">
-                    {{ formatTimestamp(scope.row['Test Date']) }}
-                </template>
-            </el-table-column>
-            <el-table-column>
-                <template #default="scope">
-                    <div class="actions">
-                        <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>
-                        <el-button type="danger" @click="confirmDelete(scope.row.id)">Delete</el-button>
-                    </div>
-                </template>
-            </el-table-column>
+            <el-table v-if="announcements.length" :data="announcements"
+                :default-sort="{ prop: 'Post Date', order: 'descending' }" class="table-container"
+                :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
+                <el-table-column prop="Title" label="Title"></el-table-column>
+                <el-table-column prop="Post Date" label="Post Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Post Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="is Test" label="Is Test" />
+                <el-table-column prop="Test Date" label="Test Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Test Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column>
+                    <template #default="scope">
+                        <div class="actions">
+                            <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>
+                            <el-button type="danger" @click="confirmDelete(scope.row.id)">Delete</el-button>
+                        </div>
+                    </template>
+                </el-table-column>
             </el-table>
             <div v-if="!announcements.length" class="empty-state">
                 <i class="el-icon-document empty-icon"></i>
@@ -59,10 +54,9 @@ import { useUserStore } from '../stores/userStore'
 import { useAnnouncementStore } from '../stores/announcementStore'
 import { fetchData, putData } from '../controller'
 import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
 import router from '../router'
 import AddCourseAnnouncement from './AddCourseAnnouncement.vue'
-import EditCourseAnnouncement from './editCourseAnnouncement.vue'
+import EditCourseAnnouncement from './EditCourseAnnouncement.vue'
 
 const announcements = ref([])
 const userStore = useUserStore();
@@ -143,7 +137,6 @@ function formatTimestamp(timestamp) {
 </script>
 
 <style scoped>
-
 .empty-icon {
     font-size: 48px;
     color: #c0c4cc;
