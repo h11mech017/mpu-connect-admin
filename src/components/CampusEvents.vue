@@ -18,9 +18,6 @@
             class="table-container"
             :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
             border
-            style="width: 100%"
-            :fit="true"
-            size="small"
         >
         <el-table-column prop="Headline" label="Headline" />
         <el-table-column prop="Post Date" label="Post Date" sortable>
@@ -69,9 +66,7 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { useEventStore } from '../stores/eventStore'
 import { fetchData, putData } from '../controller'
-import router from '../router'
 import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
 import AddcampusEvent from './AddcampusEvent.vue'
 import EditcampusEvent from './EditcampusEvent.vue'
 
@@ -152,90 +147,9 @@ function formatTimestamp(timestamp) {
 </script>
 
 <style scoped>
-.page-container {
-    padding: 0 0 32px;
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 100%;
-    background-color: var(--card-bg);
-}
-
-.page-title-container {
-    margin-bottom: 8px;
-    padding: 0 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding-bottom: 12px;
-}
-
-.page-actions-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-    padding: 0 8px;
-}
-
-.page-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin: 0;
-    display: flex;
-    align-items: center;
-}
-
-.page-actions {
-    display: flex;
-    gap: 12px;
-}
-
-.add-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.table-wrapper {
-    margin-bottom: 24px;
-    width: 100%;
-    overflow-x: auto;
-    background-color: var(--card-bg);
-}
-
-.table-container {
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-    width: 100%;
-    max-width: 100%;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 0;
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
-}
-
-.empty-icon {
-    font-size: 48px;
-    color: #c0c4cc;
-    margin-bottom: 16px;
-}
 
 .empty-message {
-    text-align: center;
-    font-size: 16px;
-    color: #909399;
     margin-bottom: 24px;
 }
 
-.actions {
-    display: flex;
-    gap: 8px;
-}
 </style>

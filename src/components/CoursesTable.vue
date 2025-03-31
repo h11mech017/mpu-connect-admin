@@ -57,71 +57,13 @@ async function handleRowClick(row) {
 
 <style scoped>
 .page-container {
-    padding: 0 0 32px;
-    width: 100%;
-    box-sizing: border-box;
     max-width: 1200px;
     margin: 0 auto;
-    background-color: var(--card-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 80vh;
-}
-
-.page-title-container {
-    margin-bottom: 8px;
-    padding: 0 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding-bottom: 12px;
-}
-
-.page-actions-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-    padding: 0 8px;
-}
-
-.page-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin: 0;
-    display: flex;
-    align-items: center;
-}
-
-.table-wrapper {
-    margin-bottom: 24px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow-x: auto;
-    background-color: var(--card-bg);
-}
-
-.table-container {
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-    width: 80% !important;
-    margin: 0 auto;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 0;
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
 }
 
 .empty-icon {
