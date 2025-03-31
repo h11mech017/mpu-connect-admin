@@ -59,7 +59,7 @@ async function logout() {
   --text-light: #ffffff;
   --text-dark: #333333;
   --background-light: #f5f7fa;
-  --card-bg: #ffffff;
+  --card-bg: #f0f0f0;
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -71,7 +71,7 @@ async function logout() {
 }
 
 body {
-  background-color: var(--card-bg);
+  background-color: #f0f0f0;
   color: var(--text-dark);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
@@ -146,7 +146,7 @@ body {
   padding: 24px 16px;
   transition: all var(--transition-speed) ease;
   box-sizing: border-box;
-  background-color: var(--card-bg);
+  background-color: #f0f0f0;
   min-height: calc(100vh - 12vh);
 }
 
