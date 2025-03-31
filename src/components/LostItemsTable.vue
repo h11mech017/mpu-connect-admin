@@ -69,7 +69,7 @@ import { onMounted, ref } from 'vue'
 import { fetchData } from '../controller'
 import AddLostItem from './AddLostItem.vue'
 import ClaimLostItem from './ClaimLostItem.vue'
-import { useItemStore } from './itemStore'
+import { useItemStore } from '../stores/itemStore'
 
 const lostItems = ref([])
 
