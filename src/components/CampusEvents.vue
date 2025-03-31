@@ -11,53 +11,48 @@
                 </el-button>
             </div>
         </div>
-    <div class="table-wrapper">
-        <el-table 
-            v-if="campusEvents.length" 
-            :data="campusEvents" 
-            class="table-container"
-            :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
-            border
-        >
-        <el-table-column prop="Headline" label="Headline" />
-        <el-table-column prop="Post Date" label="Post Date" sortable>
-            <template #default="scope">
-                {{ formatTimestamp(scope.row['Post Date']) }}
-            </template>
-        </el-table-column>
-        <el-table-column prop="Event Start Date" label="Event Start Date" sortable>
-            <template #default="scope">
-                {{ formatTimestamp(scope.row['Event Start Date']) }}
-            </template>
-        </el-table-column>
-        <el-table-column prop="Event End Date" label="Event End Date" sortable>
-            <template #default="scope">
-                {{ formatTimestamp(scope.row['Event End Date']) }}
-            </template>
-        </el-table-column>
-        <el-table-column prop="Visible Date" label="Visible Date" sortable>
-            <template #default="scope">
-                {{ formatTimestamp(scope.row['Visible Date']) }}
-            </template>
-        </el-table-column>
-        <el-table-column label="Actions">
-            <template #default="scope">
-                <div class="actions">
-                    <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>
-                    <el-button type="danger" @click="confirmDelete(scope.row.id)">Delete</el-button>
-                </div>
-            </template>
-        </el-table-column>
-        </el-table>
-        <div v-if="!campusEvents.length" class="empty-state">
-            <i class="el-icon-date empty-icon"></i>
-            <p class="empty-message">No campus events available.</p>
-            <el-button type="primary" @click="toggleAdding">Add First Event</el-button>
+        <div class="table-wrapper">
+            <el-table v-if="campusEvents.length" :data="campusEvents" class="table-container"
+                :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
+                <el-table-column prop="Headline" label="Headline" />
+                <el-table-column prop="Post Date" label="Post Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Post Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="Event Start Date" label="Event Start Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Event Start Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="Event End Date" label="Event End Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Event End Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="Visible Date" label="Visible Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Visible Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column label="Actions">
+                    <template #default="scope">
+                        <div class="actions">
+                            <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>
+                            <el-button type="danger" @click="confirmDelete(scope.row.id)">Delete</el-button>
+                        </div>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div v-if="!campusEvents.length" class="empty-state">
+                <i class="el-icon-date empty-icon"></i>
+                <p class="empty-message">No campus events available.</p>
+                <el-button type="primary" @click="toggleAdding">Add First Event</el-button>
+            </div>
         </div>
-    </div>
 
-    <AddcampusEvent @eventAdded="fetchCampusEvents" />
-    <EditcampusEvent @eventUpdated="fetchCampusEvents" />
+        <AddcampusEvent @eventAdded="fetchCampusEvents" />
+        <EditcampusEvent @eventUpdated="fetchCampusEvents" />
     </div>
 </template>
 
@@ -67,7 +62,7 @@ import { useUserStore } from '../stores/userStore'
 import { useEventStore } from '../stores/eventStore'
 import { fetchData, putData } from '../controller'
 import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
-import AddcampusEvent from './AddcampusEvent.vue'
+import AddcampusEvent from './AddCampusEvent.vue'
 import EditcampusEvent from './EditcampusEvent.vue'
 
 const campusEvents = ref([])
@@ -147,9 +142,7 @@ function formatTimestamp(timestamp) {
 </script>
 
 <style scoped>
-
 .empty-message {
     margin-bottom: 24px;
 }
-
 </style>
