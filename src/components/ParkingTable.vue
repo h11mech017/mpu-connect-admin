@@ -42,7 +42,7 @@ import { onMounted } from 'vue'
 import { ref } from 'vue'
 import { fetchData, putData } from '../controller'
 import { ElButton, ElMessage } from 'element-plus'
-import { useUserStore } from './userStore'
+import { useUserStore } from '../stores/userStore'
 
 const parkingApplications = ref([])
 
