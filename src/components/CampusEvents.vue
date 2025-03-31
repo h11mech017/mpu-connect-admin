@@ -63,7 +63,7 @@ import { useEventStore } from '../stores/eventStore'
 import { fetchData, putData } from '../controller'
 import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
 import AddcampusEvent from './AddCampusEvent.vue'
-import EditcampusEvent from './EditcampusEvent.vue'
+import EditcampusEvent from './EditCampusEvent.vue'
 
 const campusEvents = ref([])
 
