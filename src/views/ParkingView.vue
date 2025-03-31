@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import NavigationBar from '../components/NavigationBar.vue';
-import ParkingTable from '../components/ParkingTable.vue';
+import NavigationBar from '../components/NavigationBar.vue'
+import ParkingTable from '../components/ParkingTable.vue'
 
 </script>
 
