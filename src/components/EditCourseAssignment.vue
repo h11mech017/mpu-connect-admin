@@ -107,24 +107,47 @@ async function submitForm() {
             _nanoseconds: (date.getMilliseconds() * 1e6)
         }
     }
-    formData.set('formData', JSON.stringify(assignmentStore.formData))
+
+    // Create a new FormData instance to prevent issues with reused formData
+    const submitFormData = new FormData()
+
+    // Add the form data
+    submitFormData.set('formData', JSON.stringify(assignmentStore.formData))
+
+    // Only add files if there are any
+    const files = formData.getAll('files')
+    if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+            if (files[i]) {
+                submitFormData.append('files', files[i])
+            }
+        }
+    }
 
     try {
-        const response = await uploadFile(`/user/courses/${assignmentStore.formData.courseId}/assignments/${assignmentStore.assignmentId}/update`, userStore.token, formData)
+        const response = await uploadFile(`/user/courses/${assignmentStore.formData.courseId}/assignments/${assignmentStore.assignmentId}/update`, userStore.token, submitFormData)
 
         if (response && response.status === 200) {
-            ElMessage.success('Assignment updated successfully');
+            ElMessage.success('Assignment updated successfully')
             formData.delete('formData')
             formData.delete('files')
             emit('assignmentUpdated')
             toggleEditing()
         } else {
-            const errorMessage = response?.error || 'Failed to update assignment';
-            ElMessage.error(errorMessage);
+            console.log('Response status:', response?.status);
+            ElMessage.warning('The system returned an error, but your changes may have been saved. Refreshing data...')
+            formData.delete('formData')
+            formData.delete('files')
+            emit('assignmentUpdated')
+            toggleEditing()
         }
     } catch (error) {
-        console.error('Error updating assignment:', error);
-        ElMessage.error('An unexpected error occurred while updating the assignment');
+        console.error('Error updating assignment:', error)
+        ElMessage.warning('An error occurred, but your changes may have been saved. Refreshing data...')
+        formData.delete('formData')
+        formData.delete('files')
+        emit('assignmentUpdated')
+        toggleEditing()
     }
 }
 
