@@ -5,8 +5,8 @@
                 <h2 class="login-title">Sign In</h2>
 
                 <el-form-item>
-                    <el-input v-model="id" type="text" placeholder="ID" prefix-icon="el-icon-user"
-                        required class="login-input" />
+                    <el-input v-model="id" type="text" placeholder="ID" prefix-icon="el-icon-user" required
+                        class="login-input" />
                 </el-form-item>
 
                 <el-form-item>
@@ -55,8 +55,6 @@ async function handleLogin() {
         const user = userCredential.user
 
         const idToken = await user.getIdToken()
-
-        console.log(idToken)
 
         const response = await checkRole(idToken)
 
