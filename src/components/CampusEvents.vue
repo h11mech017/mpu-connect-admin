@@ -51,8 +51,8 @@
             </div>
         </div>
 
-        <AddcampusEvent @eventAdded="fetchCampusEvents" />
-        <EditcampusEvent @eventUpdated="fetchCampusEvents" />
+        <AddCampusEvent @eventAdded="fetchCampusEvents" />
+        <EditCampusEvent @eventUpdated="fetchCampusEvents" />
     </div>
 </template>
 
@@ -62,8 +62,8 @@ import { useUserStore } from '../stores/userStore'
 import { useEventStore } from '../stores/eventStore'
 import { fetchData, putData } from '../controller'
 import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
-import AddcampusEvent from './AddCampusEvent.vue'
-import EditcampusEvent from './EditCampusEvent.vue'
+import AddCampusEvent from './AddCampusEvent.vue'
+import EditCampusEvent from './EditCampusEvent.vue'
 
 const campusEvents = ref([])
 
