@@ -13,18 +13,14 @@
         </div>
 
         <div class="table-wrapper">
-            <el-table 
-                v-if="lostItems.length" 
-                :data="lostItems" 
-                :default-sort="{ prop: 'Found Date', order: 'descending' }"
-                class="table-container"
-                :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
-                :row-class-name="tableRowClassName"
-                border
-            >
+            <el-table v-if="lostItems.length" :data="lostItems"
+                :default-sort="{ prop: 'Found Date', order: 'descending' }" class="table-container"
+                :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }"
+                :row-class-name="tableRowClassName" border>
                 <el-table-column type="index" width="50"></el-table-column>
                 <el-table-column prop="Category" label="Category" width="100"></el-table-column>
-                <el-table-column prop="Description" label="Description" min-width="180" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="Description" label="Description" min-width="180"
+                    show-overflow-tooltip></el-table-column>
                 <el-table-column prop="Found Location" label="Found Location" width="130"></el-table-column>
                 <el-table-column prop="Found Date" label="Found Date" sortable width="130">
                     <template #default="scope">
@@ -33,11 +29,7 @@
                 </el-table-column>
                 <el-table-column prop="Status" label="Status" width="130">
                     <template #default="scope">
-                        <el-tag 
-                            :type="getStatusType(scope.row.Status)" 
-                            effect="light" 
-                            class="status-tag"
-                        >
+                        <el-tag :type="getStatusType(scope.row.Status)" effect="light" class="status-tag">
                             {{ scope.row.Status }}
                         </el-tag>
                     </template>
@@ -49,7 +41,7 @@
                 </el-table-column>
                 <el-table-column prop="Claimant ID" label="Claimant" width="100"></el-table-column>
                 <el-table-column prop="Updated By" label="Updated By" width="100"></el-table-column>
-                <el-table-column label="Actions" >
+                <el-table-column label="Actions">
                     <template #default="scope">
                         <div class="actions">
                             <el-button type="primary" @click="toggleClaim(scope.row.id)" class="action-button">
@@ -59,7 +51,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            
+
             <div v-show="!lostItems.length" class="empty-state">
                 <i class="el-icon-box empty-icon"></i>
                 <p class="empty-message">No lost items available.</p>
@@ -77,7 +69,7 @@ import { onMounted, ref } from 'vue'
 import { fetchData } from '../controller'
 import AddLostItem from './AddLostItem.vue'
 import ClaimLostItem from './ClaimLostItem.vue'
-import { useItemStore } from '../stores/itemStore'
+import { useItemStore } from './itemStore'
 
 const lostItems = ref([])
 
@@ -124,7 +116,7 @@ function getStatusType(status) {
     }
 }
 
-function tableRowClassName({row, rowIndex}) {
+function tableRowClassName({ row, rowIndex }) {
     if (row.Status === 'Claimed') {
         return 'claimed-row'
     }

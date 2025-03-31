@@ -4,7 +4,7 @@
 </template>
 
 <script setup>
-import LostItemsTable from '../components/LostItemsTable.vue';
+import LostItemsTable from '../stores/LostItemsTable.vue';
 import NavigationBar from '../components/NavigationBar.vue';
 
 </script>
