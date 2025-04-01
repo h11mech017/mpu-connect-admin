@@ -1,6 +1,8 @@
 <template>
-    <NavigationBar role="Admin" />
-    <LostItemsTable />
+    <div class="page-content">
+        <NavigationBar role="Admin" />
+        <LostItemsTable />
+    </div>
 </template>
 
 <script setup>

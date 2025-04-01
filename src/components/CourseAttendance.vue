@@ -11,39 +11,32 @@
             </div>
         </div>
         <div class="table-wrapper">
-        <el-table 
-            v-if="attendanceRecords.length" 
-            :data="attendanceRecords"
-            :default-sort="{ prop: 'Class Date', order: 'descending' }" 
-            class="table-container"
-            :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
-            border
-            style="width: 100%"
-            :fit="true"
-            size="small">
-        <el-table-column prop="Section" label="Section"></el-table-column>
-        <el-table-column prop="Class Date" label="Class Date" sortable>
-            <template #default="scope">
-                {{ formatTimestamp(scope.row['Class Date']) }}
-            </template>
-        </el-table-column>
-        <el-table-column prop="Updated At" label="Updated At" sortable>
-            <template #default="scope">
-                {{ formatTimestamp(scope.row['Updated At']) }}
-            </template>
-        </el-table-column>
-        <el-table-column>
-            <template #default="scope">
-                <div class="actions">
-                    <el-button type="primary" @click="editAttendance(scope.row.id)">Enter</el-button>
-                </div>
-            </template>
-        </el-table-column>
-        </el-table>
-        <div v-else class="empty-state">
-            <i class="el-icon-notebook-1 empty-icon"></i>
-            <p class="empty-message">No attendance records available.</p>
-        </div>
+            <el-table v-if="attendanceRecords.length" :data="attendanceRecords"
+                :default-sort="{ prop: 'Class Date', order: 'descending' }" class="table-container"
+                :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
+                <el-table-column prop="Section" label="Section"></el-table-column>
+                <el-table-column prop="Class Date" label="Class Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Class Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="Updated At" label="Updated At" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Updated At']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column>
+                    <template #default="scope">
+                        <div class="actions">
+                            <el-button type="primary" @click="editAttendance(scope.row.id)">Enter</el-button>
+                        </div>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div v-else class="empty-state">
+                <i class="el-icon-notebook-1 empty-icon"></i>
+                <p class="empty-message">No attendance records available.</p>
+            </div>
         </div>
     </div>
 </template>
@@ -114,13 +107,11 @@ function editAttendance(attendanceId) {
 </script>
 
 <style scoped>
-.page-container {
-    padding: 0 0 32px;
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 100%;
-    background-color: var(--card-bg);
-}
+/* Page layout styles moved to global CSS in App.vue */
+
+/* Table styles moved to global CSS in App.vue */
+
+/* Empty state styles moved to global CSS in App.vue */
 
 .page-header {
     display: flex;
@@ -132,50 +123,13 @@ function editAttendance(attendanceId) {
 }
 
 .page-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-dark);
     margin: 0;
-    display: flex;
-    align-items: center;
-}
-
-.page-actions {
-    display: flex;
-    gap: 12px;
 }
 
 .button {
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.table-wrapper {
-    margin-bottom: 24px;
-    width: 100%;
-    overflow-x: auto;
-    background-color: var(--card-bg);
-}
-
-.table-container {
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-    width: 100%;
-    max-width: 100%;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 0;
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
 }
 
 .empty-icon {
@@ -193,6 +147,7 @@ function editAttendance(attendanceId) {
 
 .actions {
     display: flex;
+    gap: 8px;
     justify-content: center;
 }
 </style>

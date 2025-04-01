@@ -4,21 +4,14 @@
             <h2 class="page-title">Courses</h2>
         </div>
         <div class="table-wrapper">
-            <el-table 
-                :data="courses.data" 
-                @row-click="handleRowClick" 
-                class="table-container"
-                :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
-                border
-                style="width: 80%"
-                :fit="true"
-                size="small"
-            >
-            <el-table-column prop="Course['Course Code']" label="Course Code" />
-            <el-table-column prop="Course['Course Name']" label="Course Name" />
-            <el-table-column prop="Section" label="Section" />
-            <el-table-column prop="Semester" label="Semester" />
-            <el-table-column prop="Academic Year" label="Accademic Year" />
+            <el-table :data="courses.data" @row-click="handleRowClick" class="table-container"
+                :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border
+                style="width: 100%" :fit="true" size="small">
+                <el-table-column prop="Course['Course Code']" label="Course Code" />
+                <el-table-column prop="Course['Course Name']" label="Course Name" />
+                <el-table-column prop="Section" label="Section" />
+                <el-table-column prop="Semester" label="Semester" />
+                <el-table-column prop="Academic Year" label="Accademic Year" />
             </el-table>
             <div v-if="!courses.data || courses.data.length === 0" class="empty-state">
                 <i class="el-icon-notebook-1 empty-icon"></i>
@@ -58,11 +51,11 @@ async function handleRowClick(row) {
 <style scoped>
 .page-container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin-left: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     min-height: 80vh;
 }
 
@@ -73,9 +66,14 @@ async function handleRowClick(row) {
 }
 
 .empty-message {
-    text-align: center;
+    text-align: left;
     font-size: 16px;
     color: #909399;
     margin-bottom: 24px;
+}
+
+.table-wrapper {
+    width: 80%;
+    align-self: flex-start;
 }
 </style>

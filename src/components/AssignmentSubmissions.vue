@@ -1,23 +1,37 @@
 <template>
-    <div>
-        <h1>Assignment Submissions</h1>
-        <p>{{ submissions.length }} of {{ enrolledStudents.length }} Students have submitted</p>
-        <el-table :data="submissions" style="width: 100%">
-            <el-table-column type="index" width="90"></el-table-column>
-            <el-table-column prop="Student ID" label="Student ID" width="120" />
-            <el-table-column prop="Submission Date" label="Submission Date" width="180" sortable>
-                <template #default="scope">
-                    {{ formatTimestamp(scope.row['Submission Date']) }}
-                </template>
-            </el-table-column>
-            <el-table-column prop="Score" label="Score" width="100" sortable />
-            <el-table-column label="Actions" width="300">
-                <template #default="scope">
-                    <el-button type="primary" @click="downloadFile(scope.row.downloadUrl)">Download File</el-button>
-                    <el-button type="success" @click="toggleGradeDialog(scope.row, scope.row.id)">Grade</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
+    <div class="page-container">
+        <div class="page-header">
+            <h2 class="page-title">Assignment Submissions</h2>
+            <p class="submission-count">{{ submissions.length }} of {{ enrolledStudents.length }} Students have
+                submitted</p>
+        </div>
+        <div class="table-wrapper">
+            <el-table v-if="submissions.length" :data="submissions" class="table-container"
+                :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
+                <el-table-column type="index" width="90"></el-table-column>
+                <el-table-column prop="Student ID" label="Student ID" width="120" />
+                <el-table-column prop="Submission Date" label="Submission Date" width="180" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Submission Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="Score" label="Score" width="100" sortable />
+                <el-table-column label="Actions">
+                    <template #default="scope">
+                        <div class="actions">
+                            <el-button type="primary" @click="downloadFile(scope.row.downloadUrl)">Download
+                                File</el-button>
+                            <el-button type="success"
+                                @click="toggleGradeDialog(scope.row, scope.row.id)">Grade</el-button>
+                        </div>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div v-else class="empty-state">
+                <i class="el-icon-document-checked empty-icon"></i>
+                <p class="empty-message">No submissions available.</p>
+            </div>
+        </div>
 
         <el-dialog v-model="gradeDialogVisible" title="Grade Assignment">
             <el-form :model="currentSubmission">
@@ -101,4 +115,48 @@ function formatTimestamp(timestamp) {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Page layout styles moved to global CSS in App.vue */
+
+/* Table styles moved to global CSS in App.vue */
+
+/* Empty state styles moved to global CSS in App.vue */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 8px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+    margin: 0;
+}
+
+.submission-count {
+    margin: 0;
+    color: #606266;
+    font-size: 14px;
+}
+
+.empty-icon {
+    font-size: 48px;
+    color: #c0c4cc;
+    margin-bottom: 16px;
+}
+
+.empty-message {
+    text-align: center;
+    font-size: 16px;
+    color: #909399;
+    margin-bottom: 24px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+</style>

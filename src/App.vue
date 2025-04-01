@@ -142,6 +142,15 @@ body {
 .main-content {
   width: 100%;
   margin-top: 12vh;
+  padding: 24px 16px;
+  transition: all var(--transition-speed) ease;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  min-height: calc(100vh - 12vh);
+}
+
+.page-content {
+  width: 100%;
   margin-left: 10vh;
   padding: 24px 16px;
   transition: all var(--transition-speed) ease;
