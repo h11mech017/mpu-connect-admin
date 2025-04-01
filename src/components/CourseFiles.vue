@@ -1,19 +1,19 @@
 <template>
     <div>
-        <div class="page-title-container">
+        <div class="page-header">
             <h2 class="page-title">Course Files</h2>
-        </div>
-        <div class="button-right">
-            <el-button type="primary" @click="triggerFileUpload">
-                Upload<el-icon class="el-icon--right">
-                    <Upload />
-                </el-icon>
-            </el-button>
-            <el-button type="primary" @click="newFolderUpload">
-                Create New Folder<el-icon class="el-icon--right">
-                    <Folder />
-                </el-icon>
-            </el-button>
+            <div class="button-right">
+                <el-button type="primary" @click="triggerFileUpload">
+                    Upload<el-icon class="el-icon--right">
+                        <Upload />
+                    </el-icon>
+                </el-button>
+                <el-button type="primary" @click="newFolderUpload">
+                    Create New Folder<el-icon class="el-icon--right">
+                        <Folder />
+                    </el-icon>
+                </el-button>
+            </div>
         </div>
         <input type="file" ref="fileInput" style="display: none" @change="handleFileChange" />
         <p v-if="selectedDirectory">chosen directory: {{ selectedDirectory }}</p>
@@ -213,8 +213,11 @@ async function handleFileChange(event) {
 </script>
 
 <style scoped>
-.page-title-container {
-    margin-bottom: 8px;
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
     padding: 0 8px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     padding-bottom: 12px;

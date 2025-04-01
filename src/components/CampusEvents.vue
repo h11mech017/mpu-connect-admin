@@ -1,9 +1,7 @@
 <template>
     <div class="page-container">
-        <div class="page-title-container">
+        <div class="page-header">
             <h2 class="page-title">Events</h2>
-        </div>
-        <div class="page-actions-container">
             <div class="page-actions">
                 <el-button type="primary" @click="toggleAdding" class="add-button">
                     <i class="el-icon-plus"></i>
@@ -142,6 +140,19 @@ function formatTimestamp(timestamp) {
 </script>
 
 <style scoped>
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 8px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+    margin: 0;
+}
+
 .empty-message {
     margin-bottom: 24px;
 }

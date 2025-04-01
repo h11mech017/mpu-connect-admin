@@ -1,9 +1,7 @@
 <template>
     <div class="page-container">
-        <div class="page-title-container">
+        <div class="page-header">
             <h2 class="page-title">Course Attendance</h2>
-        </div>
-        <div class="page-actions-container">
             <div class="page-actions">
                 <el-button type="primary" @click="addAttendance" class="button">Take Attendance
                     <el-icon class="el-icon--right">
@@ -124,18 +122,13 @@ function editAttendance(attendanceId) {
     background-color: var(--card-bg);
 }
 
-.page-title-container {
-    margin-bottom: 8px;
-    padding: 0 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding-bottom: 12px;
-}
-
-.page-actions-container {
+.page-header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
-    padding: 0 8px;
+    padding: 0 8px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .page-title {

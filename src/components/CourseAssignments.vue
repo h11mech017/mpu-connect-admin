@@ -1,9 +1,7 @@
 <template>
     <div class="page-container">
-        <div class="page-title-container">
+        <div class="page-header">
             <h2 class="page-title">Course Assignments</h2>
-        </div>
-        <div class="page-actions-container">
             <div class="page-actions">
                 <el-button type="primary" @click="toggleAdding" class="add-button">
                     <i class="el-icon-plus"></i>
@@ -163,6 +161,19 @@ function formatTimestamp(timestamp) {
 /* Table styles moved to global CSS in App.vue */
 
 /* Empty state styles moved to global CSS in App.vue */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 8px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+    margin: 0;
+}
 
 .empty-icon {
     font-size: 48px;

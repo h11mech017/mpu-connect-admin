@@ -173,6 +173,7 @@ body {
 }
 
 .table-wrapper {
+  margin-top: 16px;
   margin-bottom: 24px;
   width: 100%;
   background-color: var(--card-bg);

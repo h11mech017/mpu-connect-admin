@@ -1,9 +1,7 @@
 <template>
     <div class="page-container">
-        <div class="page-title-container">
+        <div class="page-header">
             <h2 class="page-title">Lost and Found Items</h2>
-        </div>
-        <div class="page-actions-container">
             <div class="page-actions">
                 <el-button type="primary" @click="toggleAdding" class="add-button">
                     <i class="el-icon-plus"></i>
@@ -133,18 +131,14 @@ function tableRowClassName({ row, rowIndex }) {
     background-color: var(--card-bg);
 }
 
-.page-title-container {
-    margin-bottom: 8px;
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
     padding: 0 8px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     padding-bottom: 12px;
-}
-
-.page-actions-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-    padding: 0 8px;
 }
 
 .page-title {
@@ -166,10 +160,6 @@ function tableRowClassName({ row, rowIndex }) {
     align-items: center;
     gap: 8px;
 }
-
-/* Table styles moved to global CSS in App.vue */
-
-/* Table container styles moved to global CSS in App.vue */
 
 .date-cell {
     font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
