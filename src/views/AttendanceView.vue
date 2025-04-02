@@ -2,32 +2,32 @@
     <div class="page-content">
         <NavigationBar role="Teacher" />
         <div v-if="attendanceDetail">
-        <h1>{{ formatTimestamp(attendanceDetail['Class Date']) }}</h1>
-        <el-button type="primary" @click="showQrCode">QR Code</el-button>
-        <el-button type="info" @click="fetchAttendanceDetail">Refresh
-            <el-icon class="el-icon--right">
-                <RefreshRight />
-            </el-icon>
-        </el-button>
-        <section>{{ attendanceCount }} / {{ attendanceDetail.Students.length }} students taken</section>
-        <el-dialog v-model="showQr" title="Attendance QR Code" :style="{ height: '400px' }" width="50%">
-            <div class="qr-code-container">
-                <qrcode-svg :value="qrCodeValue" level="H" size="90%" />
-            </div>
-        </el-dialog>
-        <el-table :data="attendanceDetail.Students" class="table-container">
-            <el-table-column prop="Student ID" label="Student ID"></el-table-column>
-            <el-table-column prop="Name" label="Student Name"></el-table-column>
-            <el-table-column prop="Status" label="Status" width="100"></el-table-column>
-            <el-table-column label="Actions" width="250">
-                <template #default="scope">
-                    <el-button type="success"
-                        @click="updateAttendanceStatus(scope.row.Student, 'Present')">Take</el-button>
-                    <el-button type="danger"
-                        @click="updateAttendanceStatus(scope.row.Student, 'Absent')">Absent</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
+            <h1>{{ formatTimestamp(attendanceDetail['Class Date']) }}</h1>
+            <el-button type="primary" @click="showQrCode">QR Code</el-button>
+            <el-button type="info" @click="fetchAttendanceDetail">Refresh
+                <el-icon class="el-icon--right">
+                    <RefreshRight />
+                </el-icon>
+            </el-button>
+            <section>{{ attendanceCount }} / {{ attendanceDetail.Students.length }} students taken</section>
+            <el-dialog v-model="showQr" title="Attendance QR Code" :style="{ height: '400px' }" width="50%">
+                <div class="qr-code-container">
+                    <qrcode-svg :value="qrCodeValue" level="H" size="90%" />
+                </div>
+            </el-dialog>
+            <el-table :data="attendanceDetail.Students" class="table-container">
+                <el-table-column prop="Student ID" label="Student ID"></el-table-column>
+                <el-table-column prop="Name" label="Student Name"></el-table-column>
+                <el-table-column prop="Status" label="Status" width="100"></el-table-column>
+                <el-table-column label="Actions" width="250">
+                    <template #default="scope">
+                        <el-button type="success"
+                            @click="updateAttendanceStatus(scope.row.Student, 'Present')">Take</el-button>
+                        <el-button type="danger"
+                            @click="updateAttendanceStatus(scope.row.Student, 'Absent')">Absent</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
 
         </div>
     </div>

@@ -23,8 +23,9 @@
                 <el-table-column label="Actions">
                     <template #default="scope">
                         <div class="actions">
-                            <el-button type="primary" @click="approveParkingApplication(scope.row)">Approve</el-button>
-                            <el-button type="danger" @click="rejectParkingApplication(scope.row)">Reject</el-button>
+                            <el-button type="primary"
+                                @click="approveParkingApplication(scope.row.id)">Approve</el-button>
+                            <el-button type="danger" @click="rejectParkingApplication(scope.row.id)">Reject</el-button>
                         </div>
                     </template>
                 </el-table-column>
