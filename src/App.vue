@@ -1,7 +1,8 @@
 <template>
   <div>
     <header class="header">
-      <img src="./assets/mpu_logo.png" alt="Logo" class="logo" />
+      <img src="./assets/mpu_logo.png" alt="Logo" class="logo" @click="navigateToHome"
+        :class="{ 'clickable': userStore.token }" />
       <div v-if="userStore.token" class="logout-container">
         <div class="modern-logout-btn" @click="logout">
           <span class="logout-text">Logout</span>
@@ -42,6 +43,20 @@ async function logout() {
     router.push('/login');
   } catch (error) {
     console.error('Error signing out:', error);
+  }
+}
+
+function navigateToHome() {
+  if (!userStore.token) return; // Only navigate if user is logged in
+
+  const role = userStore.role;
+
+  if (role === 'Admin') {
+    // Admin users go to campus events view
+    router.push('/events');
+  } else if (role === 'Teacher') {
+    // Teacher users go to courses view
+    router.push('/courses');
   }
 }
 </script>
@@ -95,6 +110,15 @@ body {
 .logo {
   height: 80%;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.clickable:hover {
+  transform: scale(1.05);
 }
 
 .logout-container {
