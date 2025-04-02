@@ -41,8 +41,6 @@ const id = ref('')
 const password = ref('')
 const loading = ref(false)
 
-const currentYear = computed(() => new Date().getFullYear())
-
 const userStore = useUserStore()
 
 async function handleLogin() {
