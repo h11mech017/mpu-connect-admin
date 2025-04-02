@@ -4,7 +4,7 @@
             <h2 class="page-title">Parking Applications</h2>
         </div>
         <div class="table-wrapper">
-            <el-table v-if="parkingApplications.length" :data="parkingApplications" class="table-container"
+            <el-table v-if="parkingApplications.length" :data="paginatedData" class="table-container"
                 :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
                 <el-table-column prop="Student ID" label="Student ID" />
                 <el-table-column prop="Card valid till" label="Student Card valid till" sortable>
@@ -34,20 +34,38 @@
                 <i class="el-icon-parking empty-icon"></i>
                 <p class="empty-message">No parking applications available.</p>
             </div>
+            <div v-if="parkingApplications.length" class="pagination-container">
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="parkingApplications.length"
+                    :page-size="pageSize"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
 import { onMounted } from 'vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { fetchData, putData } from '../controller'
-import { ElButton, ElMessage } from 'element-plus'
+import { ElButton, ElMessage, ElPagination } from 'element-plus'
 import { useUserStore } from '../stores/userStore'
 
 const parkingApplications = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
 
 const userStore = useUserStore();
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return parkingApplications.value.slice(startIndex, endIndex)
+})
 
 onMounted(async () => {
     await fetchApplications()
@@ -85,6 +103,10 @@ async function rejectParkingApplication(id) {
         ElMessage.success('Parking application rejected')
         await fetchApplications()
     }
+}
+
+function handleCurrentChange(page) {
+    currentPage.value = page
 }
 </script>
 

@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="table-wrapper">
-            <el-table v-if="announcements.length" :data="announcements"
+            <el-table v-if="announcements.length" :data="paginatedData"
                 :default-sort="{ prop: 'Post Date', order: 'descending' }" class="table-container"
                 :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
                 <el-table-column prop="Title" label="Title"></el-table-column>
@@ -39,6 +39,11 @@
                 <p class="empty-message">No announcements available.</p>
                 <el-button type="primary" @click="toggleAdding">Add First Announcement</el-button>
             </div>
+
+            <div v-if="announcements.length" class="pagination-container">
+                <el-pagination background layout="prev, pager, next" :total="announcements.length" :page-size="pageSize"
+                    @current-change="handleCurrentChange" :current-page="currentPage" />
+            </div>
         </div>
 
         <AddCourseAnnouncement @announcementAdded="fetchAnnouncements" />
@@ -47,18 +52,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { useAnnouncementStore } from '../stores/announcementStore'
 import { fetchData, putData } from '../controller'
-import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
+import { ElButton, ElMessage, ElMessageBox, ElPagination } from 'element-plus'
 import router from '../router'
 import AddCourseAnnouncement from './AddCourseAnnouncement.vue'
 import EditCourseAnnouncement from './EditCourseAnnouncement.vue'
 
 const announcements = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
 const userStore = useUserStore();
 const announcementStore = useAnnouncementStore()
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return announcements.value.slice(startIndex, endIndex)
+})
 
 onMounted(async () => {
     await fetchAnnouncements()
@@ -130,6 +143,10 @@ function formatTimestamp(timestamp) {
         return date.toLocaleString()
     }
     return "";
+}
+
+function handleCurrentChange(page) {
+    currentPage.value = page
 }
 
 </script>

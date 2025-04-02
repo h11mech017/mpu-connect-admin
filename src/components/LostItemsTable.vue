@@ -11,7 +11,7 @@
         </div>
 
         <div class="table-wrapper">
-            <el-table v-if="lostItems.length" :data="lostItems"
+            <el-table v-if="lostItems.length" :data="paginatedData"
                 :default-sort="{ prop: 'Found Date', order: 'descending' }" class="table-container"
                 :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }"
                 :row-class-name="tableRowClassName" border>
@@ -55,6 +55,17 @@
                 <p class="empty-message">No lost items available.</p>
                 <el-button type="primary" @click="toggleAdding">Add First Item</el-button>
             </div>
+            
+            <div v-if="lostItems.length" class="pagination-container">
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="lostItems.length"
+                    :page-size="pageSize"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                />
+            </div>
         </div>
 
         <AddLostItem @itemAdded="fetchItems" />
@@ -63,13 +74,22 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { fetchData } from '../controller'
 import AddLostItem from './AddLostItem.vue'
 import ClaimLostItem from './ClaimLostItem.vue'
 import { useItemStore } from '../stores/itemStore'
+import { ElPagination } from 'element-plus'
 
 const lostItems = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return lostItems.value.slice(startIndex, endIndex)
+})
 
 onMounted(async () => {
     await fetchItems()
@@ -119,6 +139,10 @@ function tableRowClassName({ row, rowIndex }) {
         return 'claimed-row'
     }
     return ''
+}
+
+function handleCurrentChange(page) {
+    currentPage.value = page
 }
 </script>
 

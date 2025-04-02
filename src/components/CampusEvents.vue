@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="table-wrapper">
-            <el-table v-if="campusEvents.length" :data="campusEvents" class="table-container"
+            <el-table v-if="campusEvents.length" :data="paginatedData" class="table-container"
                 :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
                 <el-table-column prop="Headline" label="Headline" />
                 <el-table-column prop="Post Date" label="Post Date" sortable>
@@ -47,6 +47,17 @@
                 <p class="empty-message">No campus events available.</p>
                 <el-button type="primary" @click="toggleAdding">Add First Event</el-button>
             </div>
+            
+            <div v-if="campusEvents.length" class="pagination-container">
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="campusEvents.length"
+                    :page-size="pageSize"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                />
+            </div>
         </div>
 
         <AddCampusEvent @eventAdded="fetchCampusEvents" />
@@ -55,15 +66,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { useEventStore } from '../stores/eventStore'
 import { fetchData, putData } from '../controller'
-import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
+import { ElButton, ElMessage, ElMessageBox, ElPagination } from 'element-plus'
 import AddCampusEvent from './AddCampusEvent.vue'
 import EditCampusEvent from './EditCampusEvent.vue'
 
 const campusEvents = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return campusEvents.value.slice(startIndex, endIndex)
+})
 
 const userStore = useUserStore()
 const eventStore = useEventStore()
@@ -135,6 +154,10 @@ function formatTimestamp(timestamp) {
         return date.toLocaleString()
     }
     return "";
+}
+
+function handleCurrentChange(page) {
+    currentPage.value = page
 }
 
 </script>

@@ -6,7 +6,7 @@
                 submitted</p>
         </div>
         <div class="table-wrapper">
-            <el-table v-if="submissions.length" :data="submissions" class="table-container"
+            <el-table v-if="submissions.length" :data="paginatedData" class="table-container"
                 :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
                 <el-table-column type="index" width="90"></el-table-column>
                 <el-table-column prop="Student ID" label="Student ID" width="120" />
@@ -31,6 +31,17 @@
                 <i class="el-icon-document-checked empty-icon"></i>
                 <p class="empty-message">No submissions available.</p>
             </div>
+            
+            <div v-if="submissions.length" class="pagination-container">
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="submissions.length"
+                    :page-size="pageSize"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                />
+            </div>
         </div>
 
         <el-dialog v-model="gradeDialogVisible" title="Grade Assignment">
@@ -51,17 +62,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { fetchData, putData } from '../controller'
 import router from '../router'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElPagination } from 'element-plus'
 
 const courseId = router.currentRoute.value.params.courseId
 const section = router.currentRoute.value.params.section
 const assignmentId = router.currentRoute.value.params.assignmentId
 const submissions = ref([])
 const enrolledStudents = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return submissions.value.slice(startIndex, endIndex)
+})
 
 const gradeDialogVisible = ref(false)
 const currentSubmission = ref({})
@@ -111,6 +130,10 @@ function formatTimestamp(timestamp) {
         return date.toLocaleString()
     }
     return "";
+}
+
+function handleCurrentChange(page) {
+    currentPage.value = page
 }
 
 </script>

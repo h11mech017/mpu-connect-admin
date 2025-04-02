@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="table-wrapper">
-            <el-table v-if="attendanceRecords.length" :data="attendanceRecords"
+            <el-table v-if="attendanceRecords.length" :data="paginatedData"
                 :default-sort="{ prop: 'Class Date', order: 'descending' }" class="table-container"
                 :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
                 <el-table-column prop="Section" label="Section"></el-table-column>
@@ -37,20 +37,39 @@
                 <i class="el-icon-notebook-1 empty-icon"></i>
                 <p class="empty-message">No attendance records available.</p>
             </div>
+            
+            <div v-if="attendanceRecords.length" class="pagination-container">
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="attendanceRecords.length"
+                    :page-size="pageSize"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { fetchData, postData, putData } from '../controller'
-import { ElButton, ElMessage } from 'element-plus'
+import { ElButton, ElMessage, ElPagination } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import router from '../router'
 
 const attendanceRecords = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
 const userStore = useUserStore();
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return attendanceRecords.value.slice(startIndex, endIndex)
+})
 
 onMounted(async () => {
     await fetchAttendanceRecords()
@@ -103,6 +122,9 @@ function editAttendance(attendanceId) {
     router.push({ name: 'AttendanceView', params: { courseId: courseId, section: section, attendanceId } })
 }
 
+function handleCurrentChange(page) {
+    currentPage.value = page
+}
 
 </script>
 

@@ -197,6 +197,12 @@ body {
   background-color: var(--card-bg);
 }
 
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
 .page-title-container {
   margin-bottom: 8px;
   padding: 0 8px;

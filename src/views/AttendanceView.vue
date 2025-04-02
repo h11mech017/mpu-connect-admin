@@ -15,7 +15,7 @@
                     <qrcode-svg :value="qrCodeValue" level="H" size="90%" />
                 </div>
             </el-dialog>
-            <el-table :data="attendanceDetail.Students" class="table-container">
+            <el-table :data="paginatedData" class="table-container">
                 <el-table-column prop="Student ID" label="Student ID"></el-table-column>
                 <el-table-column prop="Name" label="Student Name"></el-table-column>
                 <el-table-column prop="Status" label="Status" width="100"></el-table-column>
@@ -29,15 +29,25 @@
                 </el-table-column>
             </el-table>
 
+            <div v-if="attendanceDetail && attendanceDetail.Students && attendanceDetail.Students.length" class="pagination-container">
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="attendanceDetail.Students.length"
+                    :page-size="pageSize"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { fetchData, putData } from '../controller'
-import { ElButton, ElMessage } from 'element-plus'
+import { ElButton, ElMessage, ElPagination } from 'element-plus'
 import { RefreshRight } from '@element-plus/icons-vue'
 import router from '../router'
 import { QrcodeSvg } from 'qrcode.vue'
@@ -45,9 +55,20 @@ import NavigationBar from '../components/NavigationBar.vue'
 
 const attendanceDetail = ref()
 const attendanceCount = ref(0)
+const currentPage = ref(1)
+const pageSize = ref(10)
 const userStore = useUserStore()
 const qrCodeValue = ref('')
 const showQr = ref(false)
+
+const paginatedData = computed(() => {
+    if (!attendanceDetail.value || !attendanceDetail.value.Students) {
+        return []
+    }
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return attendanceDetail.value.Students.slice(startIndex, endIndex)
+})
 
 onMounted(async () => {
     await fetchAttendanceDetail()
@@ -134,6 +155,10 @@ function formatTimestamp(timestamp) {
         return date.toLocaleDateString()
     }
     return "";
+}
+
+function handleCurrentChange(page) {
+    currentPage.value = page
 }
 
 </script>
