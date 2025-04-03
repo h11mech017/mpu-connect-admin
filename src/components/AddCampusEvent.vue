@@ -143,6 +143,7 @@ async function submitForm() {
         'Event Start Date': eventStore.formData['Event Start Date'],
         'Event End Date': eventStore.formData['Event End Date'],
         'Visible Date': eventStore.formData['Visible Date'],
+        'is Notification': eventStore.formData['is Notification']
     }
 
     formData.set('formData', JSON.stringify(form))

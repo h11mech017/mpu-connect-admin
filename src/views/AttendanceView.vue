@@ -29,15 +29,10 @@
                 </el-table-column>
             </el-table>
 
-            <div v-if="attendanceDetail && attendanceDetail.Students && attendanceDetail.Students.length" class="pagination-container">
-                <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total="attendanceDetail.Students.length"
-                    :page-size="pageSize"
-                    @current-change="handleCurrentChange"
-                    :current-page="currentPage"
-                />
+            <div v-if="attendanceDetail && attendanceDetail.Students && attendanceDetail.Students.length"
+                class="pagination-container">
+                <el-pagination background layout="prev, pager, next" :total="attendanceDetail.Students.length"
+                    :page-size="pageSize" @current-change="handleCurrentChange" :current-page="currentPage" />
             </div>
         </div>
     </div>
