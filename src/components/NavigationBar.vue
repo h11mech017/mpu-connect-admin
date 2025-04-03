@@ -20,6 +20,12 @@
           </el-icon>
           <span>Lost and Found</span>
         </el-menu-item>
+        <el-menu-item index="/lockers">
+          <el-icon>
+            <Key />
+          </el-icon>
+          <span>Lockers</span>
+        </el-menu-item>
       </el-menu>
     </el-row>
   </div>
@@ -62,7 +68,7 @@
 </template>
 
 <script setup>
-import { Document, Bell, Folder, Memo, Checked, Box, Calendar, List } from '@element-plus/icons-vue'
+import { Document, Bell, Folder, Memo, Checked, Box, Calendar, List, Key } from '@element-plus/icons-vue'
 import { useCourseStore } from '../stores/courseStore';
 
 const props = defineProps({

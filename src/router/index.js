@@ -11,6 +11,7 @@ import FilesView from "../views/FilesView.vue"
 import AssignmentsView from "../views/AssignmentsView.vue"
 import AssignmentView from "../views/AssignmentView.vue"
 import AttendancesView from "../views/AttendancesView.vue"
+import LockersView from "../views/LockersView.vue"
 
 const router = createRouter({
     history: createWebHistory(),
@@ -43,6 +44,11 @@ const router = createRouter({
             path: '/lost-and-found',
             name: 'LostItemsView',
             component: LostItemsView
+        },
+        {
+            path: '/lockers',
+            name: 'LockersView',
+            component: LockersView
         },
         {
             path: '/courses',

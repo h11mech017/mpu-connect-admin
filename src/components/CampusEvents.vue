@@ -47,16 +47,10 @@
                 <p class="empty-message">No campus events available.</p>
                 <el-button type="primary" @click="toggleAdding">Add First Event</el-button>
             </div>
-            
+
             <div v-if="campusEvents.length" class="pagination-container">
-                <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total="campusEvents.length"
-                    :page-size="pageSize"
-                    @current-change="handleCurrentChange"
-                    :current-page="currentPage"
-                />
+                <el-pagination background layout="prev, pager, next" :total="campusEvents.length" :page-size="pageSize"
+                    @current-change="handleCurrentChange" :current-page="currentPage" />
             </div>
         </div>
 
