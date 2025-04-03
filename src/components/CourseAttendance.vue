@@ -11,8 +11,8 @@
             </div>
         </div>
         <div class="table-wrapper">
-            <el-table v-if="attendanceRecords.length" :data="paginatedData"
-                :default-sort="{ prop: 'Class Date', order: 'descending' }" class="table-container"
+            <el-table v-if="attendanceRecords.length" :data="paginatedData" class="table-container"
+                :default-sort="{ prop: 'Class Date', order: 'descending' }"
                 :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
                 <el-table-column prop="Section" label="Section"></el-table-column>
                 <el-table-column prop="Class Date" label="Class Date" sortable>
@@ -37,16 +37,10 @@
                 <i class="el-icon-notebook-1 empty-icon"></i>
                 <p class="empty-message">No attendance records available.</p>
             </div>
-            
+
             <div v-if="attendanceRecords.length" class="pagination-container">
-                <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total="attendanceRecords.length"
-                    :page-size="pageSize"
-                    @current-change="handleCurrentChange"
-                    :current-page="currentPage"
-                />
+                <el-pagination background layout="prev, pager, next" :total="attendanceRecords.length"
+                    :page-size="pageSize" @current-change="handleCurrentChange" :current-page="currentPage" />
             </div>
         </div>
     </div>
@@ -84,7 +78,13 @@ async function fetchAttendanceRecords() {
         }
         const response = await fetchData(`/user/courses/${courseId}/${section}/attendance`, userStore.token)
         if (response && response.data) {
-            attendanceRecords.value = response.data
+            // Sort the data by class date in descending order
+            attendanceRecords.value = response.data.sort((a, b) => {
+                // Compare the timestamps for 'Class Date'
+                const dateA = a['Class Date']?._seconds || 0
+                const dateB = b['Class Date']?._seconds || 0
+                return dateA - dateB
+            })
         } else {
             ElMessage.error('Failed to fetch attendance records')
         }
