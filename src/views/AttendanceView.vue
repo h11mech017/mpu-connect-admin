@@ -124,7 +124,10 @@ function showQrCode() {
 }
 
 async function generateQrCodeValue() {
-    const apiEndpoint = `${import.meta.env.VITE_BACKEND_URL}/user/courses/${router.currentRoute.value.params.courseId}/${router.currentRoute.value.params.section}/attendance/${router.currentRoute.value.params.attendanceId}/checkin`
+    const apiEndpoint = `${import.meta.env.VITE_BACKEND_URL}
+        /user/courses/${router.currentRoute.value.params.courseId}
+        /${router.currentRoute.value.params.section}/attendance
+        /${router.currentRoute.value.params.attendanceId}/checkin`
     const timestamp = Date.now()
     const data = new TextEncoder().encode(apiEndpoint + timestamp)
     const hashBuffer = await crypto.subtle.digest('SHA-256', data)
