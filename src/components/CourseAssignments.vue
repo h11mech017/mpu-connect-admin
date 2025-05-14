@@ -1,9 +1,7 @@
 <template>
     <div class="page-container">
-        <div class="page-title-container">
+        <div class="page-header">
             <h2 class="page-title">Course Assignments</h2>
-        </div>
-        <div class="page-actions-container">
             <div class="page-actions">
                 <el-button type="primary" @click="toggleAdding" class="add-button">
                     <i class="el-icon-plus"></i>
@@ -14,11 +12,10 @@
         <div class="table-wrapper">
             <el-table 
                 v-if="courseAssignments.length" 
-                :data="courseAssignments" 
+                :data="paginatedData" 
                 class="table-container"
                 :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
                 border
-
             >
             <el-table-column prop="Title" label="Title"/>
             <el-table-column prop="Available Date" label="Available Date" sortable>
@@ -52,6 +49,17 @@
                 <p class="empty-message">No course assignments available.</p>
                 <el-button type="primary" @click="toggleAdding">Create First Assignment</el-button>
             </div>
+            
+            <div v-if="courseAssignments.length" class="pagination-container">
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="courseAssignments.length"
+                    :page-size="pageSize"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                />
+            </div>
         </div>
 
         <AddCourseAssignment @assignmentAdded="fetchCourseAssignments" />
@@ -60,17 +68,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { useAssignmentStore } from '../stores/assignmentStore'
 import { fetchData, putData } from '../controller'
 import router from '../router'
-import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
+import { ElButton, ElMessage, ElMessageBox, ElPagination } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import AddCourseAssignment from './AddCourseAssignment.vue'
 import EditCourseAssignment from './EditCourseAssignment.vue'
 
 const courseAssignments = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return courseAssignments.value.slice(startIndex, endIndex)
+})
 
 const userStore = useUserStore()
 const assignmentStore = useAssignmentStore()
@@ -155,6 +171,10 @@ function formatTimestamp(timestamp) {
     return "";
 }
 
+function handleCurrentChange(page) {
+    currentPage.value = page
+}
+
 </script>
 
 <style scoped>
@@ -163,6 +183,19 @@ function formatTimestamp(timestamp) {
 /* Table styles moved to global CSS in App.vue */
 
 /* Empty state styles moved to global CSS in App.vue */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 8px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+    margin: 0;
+}
 
 .empty-icon {
     font-size: 48px;

@@ -1,9 +1,7 @@
 <template>
     <div class="page-container">
-        <div class="page-title-container">
+        <div class="page-header">
             <h2 class="page-title">Course Announcements</h2>
-        </div>
-        <div class="page-actions-container">
             <div class="page-actions">
                 <el-button type="primary" @click="toggleAdding" class="add-button">
                     <i class="el-icon-plus"></i>
@@ -12,39 +10,39 @@
             </div>
         </div>
         <div class="table-wrapper">
-            <el-table 
-                v-if="announcements.length" 
-                :data="announcements"
-                :default-sort="{ prop: 'Post Date', order: 'descending' }" 
-                class="table-container"
-                :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
-                border
-            >
-            <el-table-column prop="Title" label="Title"></el-table-column>
-            <el-table-column prop="Post Date" label="Post Date" sortable>
-                <template #default="scope">
-                    {{ formatTimestamp(scope.row['Post Date']) }}
-                </template>
-            </el-table-column>
-            <el-table-column prop="is Test" label="Is Test" />
-            <el-table-column prop="Test Date" label="Test Date" sortable>
-                <template #default="scope">
-                    {{ formatTimestamp(scope.row['Test Date']) }}
-                </template>
-            </el-table-column>
-            <el-table-column>
-                <template #default="scope">
-                    <div class="actions">
-                        <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>
-                        <el-button type="danger" @click="confirmDelete(scope.row.id)">Delete</el-button>
-                    </div>
-                </template>
-            </el-table-column>
+            <el-table v-if="announcements.length" :data="paginatedData"
+                :default-sort="{ prop: 'Post Date', order: 'descending' }" class="table-container"
+                :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
+                <el-table-column prop="Title" label="Title"></el-table-column>
+                <el-table-column prop="Post Date" label="Post Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Post Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="is Test" label="Is Test" />
+                <el-table-column prop="Test Date" label="Test Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Test Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column>
+                    <template #default="scope">
+                        <div class="actions">
+                            <el-button type="primary" @click="toggleEditing(scope.row)">Edit</el-button>
+                            <el-button type="danger" @click="confirmDelete(scope.row.id)">Delete</el-button>
+                        </div>
+                    </template>
+                </el-table-column>
             </el-table>
             <div v-if="!announcements.length" class="empty-state">
                 <i class="el-icon-document empty-icon"></i>
                 <p class="empty-message">No announcements available.</p>
                 <el-button type="primary" @click="toggleAdding">Add First Announcement</el-button>
+            </div>
+
+            <div v-if="announcements.length" class="pagination-container">
+                <el-pagination background layout="prev, pager, next" :total="announcements.length" :page-size="pageSize"
+                    @current-change="handleCurrentChange" :current-page="currentPage" />
             </div>
         </div>
 
@@ -54,19 +52,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { useAnnouncementStore } from '../stores/announcementStore'
 import { fetchData, putData } from '../controller'
-import { ElButton, ElMessage, ElMessageBox } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
+import { ElButton, ElMessage, ElMessageBox, ElPagination } from 'element-plus'
 import router from '../router'
 import AddCourseAnnouncement from './AddCourseAnnouncement.vue'
-import EditCourseAnnouncement from './editCourseAnnouncement.vue'
+import EditCourseAnnouncement from './EditCourseAnnouncement.vue'
 
 const announcements = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
 const userStore = useUserStore();
 const announcementStore = useAnnouncementStore()
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return announcements.value.slice(startIndex, endIndex)
+})
 
 onMounted(async () => {
     await fetchAnnouncements()
@@ -140,9 +145,25 @@ function formatTimestamp(timestamp) {
     return "";
 }
 
+function handleCurrentChange(page) {
+    currentPage.value = page
+}
+
 </script>
 
 <style scoped>
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 8px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+    margin: 0;
+}
 
 .empty-icon {
     font-size: 48px;

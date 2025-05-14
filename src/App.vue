@@ -1,7 +1,8 @@
 <template>
   <div>
     <header class="header">
-      <img src="./assets/mpu_logo.png" alt="Logo" class="logo" />
+      <img src="./assets/mpu_logo.png" alt="Logo" class="logo" @click="navigateToHome"
+        :class="{ 'clickable': userStore.token }" />
       <div v-if="userStore.token" class="logout-container">
         <div class="modern-logout-btn" @click="logout">
           <span class="logout-text">Logout</span>
@@ -42,6 +43,20 @@ async function logout() {
     router.push('/login');
   } catch (error) {
     console.error('Error signing out:', error);
+  }
+}
+
+function navigateToHome() {
+  if (!userStore.token) return; // Only navigate if user is logged in
+
+  const role = userStore.role;
+
+  if (role === 'Admin') {
+    // Admin users go to campus events view
+    router.push('/events');
+  } else if (role === 'Teacher') {
+    // Teacher users go to courses view
+    router.push('/courses');
   }
 }
 </script>
@@ -97,6 +112,15 @@ body {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
+.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.clickable:hover {
+  transform: scale(1.05);
+}
+
 .logout-container {
   margin-left: auto;
   margin-right: 30px;
@@ -142,6 +166,15 @@ body {
 .main-content {
   width: 100%;
   margin-top: 12vh;
+  padding: 24px 16px;
+  transition: all var(--transition-speed) ease;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  min-height: calc(100vh - 12vh);
+}
+
+.page-content {
+  width: 100%;
   margin-left: 10vh;
   padding: 24px 16px;
   transition: all var(--transition-speed) ease;
@@ -173,6 +206,7 @@ body {
 }
 
 .table-wrapper {
+  margin-top: 16px;
   margin-bottom: 24px;
   width: 100%;
   background-color: var(--card-bg);
@@ -185,6 +219,12 @@ body {
   box-sizing: border-box;
   max-width: 100%;
   background-color: var(--card-bg);
+}
+
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .page-title-container {

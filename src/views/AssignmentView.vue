@@ -1,6 +1,8 @@
 <template>
-    <NavigationBar role="Teacher" />
-    <AssignmentSubmissions />
+    <div class="page-content">
+        <NavigationBar role="Teacher" />
+        <AssignmentSubmissions />
+    </div>
 </template>
 
 <script setup>

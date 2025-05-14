@@ -1,14 +1,14 @@
 <template>
     <div class="page-content">
         <NavigationBar role="Admin" />
-        <ParkingTable />
+        <LockerTable />
     </div>
 </template>
 
 <script setup>
+import LockerTable from '../components/LockerTable.vue'
 import NavigationBar from '../components/NavigationBar.vue'
-import ParkingTable from '../components/ParkingTable.vue'
-
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

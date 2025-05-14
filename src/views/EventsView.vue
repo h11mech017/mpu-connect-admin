@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="page-content">
         <NavigationBar role="Admin" />
         <CampusEvents />
     </div>

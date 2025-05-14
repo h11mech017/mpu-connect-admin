@@ -1,9 +1,7 @@
 <template>
     <div class="page-container">
-        <div class="page-title-container">
+        <div class="page-header">
             <h2 class="page-title">Course Attendance</h2>
-        </div>
-        <div class="page-actions-container">
             <div class="page-actions">
                 <el-button type="primary" @click="addAttendance" class="button">Take Attendance
                     <el-icon class="el-icon--right">
@@ -13,53 +11,59 @@
             </div>
         </div>
         <div class="table-wrapper">
-        <el-table 
-            v-if="attendanceRecords.length" 
-            :data="attendanceRecords"
-            :default-sort="{ prop: 'Class Date', order: 'descending' }" 
-            class="table-container"
-            :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
-            border
-            style="width: 100%"
-            :fit="true"
-            size="small">
-        <el-table-column prop="Section" label="Section"></el-table-column>
-        <el-table-column prop="Class Date" label="Class Date" sortable>
-            <template #default="scope">
-                {{ formatTimestamp(scope.row['Class Date']) }}
-            </template>
-        </el-table-column>
-        <el-table-column prop="Updated At" label="Updated At" sortable>
-            <template #default="scope">
-                {{ formatTimestamp(scope.row['Updated At']) }}
-            </template>
-        </el-table-column>
-        <el-table-column>
-            <template #default="scope">
-                <div class="actions">
-                    <el-button type="primary" @click="editAttendance(scope.row.id)">Enter</el-button>
-                </div>
-            </template>
-        </el-table-column>
-        </el-table>
-        <div v-else class="empty-state">
-            <i class="el-icon-notebook-1 empty-icon"></i>
-            <p class="empty-message">No attendance records available.</p>
-        </div>
+            <el-table v-if="attendanceRecords.length" :data="paginatedData" class="table-container"
+                :default-sort="{ prop: 'Class Date', order: 'descending' }"
+                :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }" border>
+                <el-table-column prop="Section" label="Section"></el-table-column>
+                <el-table-column prop="Class Date" label="Class Date" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Class Date']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="Updated At" label="Updated At" sortable>
+                    <template #default="scope">
+                        {{ formatTimestamp(scope.row['Updated At']) }}
+                    </template>
+                </el-table-column>
+                <el-table-column>
+                    <template #default="scope">
+                        <div class="actions">
+                            <el-button type="primary" @click="editAttendance(scope.row.id)">Enter</el-button>
+                        </div>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div v-else class="empty-state">
+                <i class="el-icon-notebook-1 empty-icon"></i>
+                <p class="empty-message">No attendance records available.</p>
+            </div>
+
+            <div v-if="attendanceRecords.length" class="pagination-container">
+                <el-pagination background layout="prev, pager, next" :total="attendanceRecords.length"
+                    :page-size="pageSize" @current-change="handleCurrentChange" :current-page="currentPage" />
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { fetchData, postData, putData } from '../controller'
-import { ElButton, ElMessage } from 'element-plus'
+import { ElButton, ElMessage, ElPagination } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import router from '../router'
 
 const attendanceRecords = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
 const userStore = useUserStore();
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return attendanceRecords.value.slice(startIndex, endIndex)
+})
 
 onMounted(async () => {
     await fetchAttendanceRecords()
@@ -74,7 +78,13 @@ async function fetchAttendanceRecords() {
         }
         const response = await fetchData(`/user/courses/${courseId}/${section}/attendance`, userStore.token)
         if (response && response.data) {
-            attendanceRecords.value = response.data
+            // Sort the data by class date in descending order
+            attendanceRecords.value = response.data.sort((a, b) => {
+                // Compare the timestamps for 'Class Date'
+                const dateA = a['Class Date']?._seconds || 0
+                const dateB = b['Class Date']?._seconds || 0
+                return dateA - dateB
+            })
         } else {
             ElMessage.error('Failed to fetch attendance records')
         }
@@ -112,77 +122,36 @@ function editAttendance(attendanceId) {
     router.push({ name: 'AttendanceView', params: { courseId: courseId, section: section, attendanceId } })
 }
 
+function handleCurrentChange(page) {
+    currentPage.value = page
+}
 
 </script>
 
 <style scoped>
-.page-container {
-    padding: 0 0 32px;
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 100%;
-    background-color: var(--card-bg);
-}
+/* Page layout styles moved to global CSS in App.vue */
 
-.page-title-container {
-    margin-bottom: 8px;
-    padding: 0 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding-bottom: 12px;
-}
+/* Table styles moved to global CSS in App.vue */
 
-.page-actions-container {
+/* Empty state styles moved to global CSS in App.vue */
+
+.page-header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
-    padding: 0 8px;
+    padding: 0 8px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .page-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-dark);
     margin: 0;
-    display: flex;
-    align-items: center;
-}
-
-.page-actions {
-    display: flex;
-    gap: 12px;
 }
 
 .button {
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.table-wrapper {
-    margin-bottom: 24px;
-    width: 100%;
-    overflow-x: auto;
-    background-color: var(--card-bg);
-}
-
-.table-container {
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-    width: 100%;
-    max-width: 100%;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 0;
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
 }
 
 .empty-icon {
@@ -200,6 +169,7 @@ function editAttendance(attendanceId) {
 
 .actions {
     display: flex;
+    gap: 8px;
     justify-content: center;
 }
 </style>

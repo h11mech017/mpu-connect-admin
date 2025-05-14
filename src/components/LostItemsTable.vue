@@ -1,9 +1,7 @@
 <template>
     <div class="page-container">
-        <div class="page-title-container">
+        <div class="page-header">
             <h2 class="page-title">Lost and Found Items</h2>
-        </div>
-        <div class="page-actions-container">
             <div class="page-actions">
                 <el-button type="primary" @click="toggleAdding" class="add-button">
                     <i class="el-icon-plus"></i>
@@ -13,18 +11,14 @@
         </div>
 
         <div class="table-wrapper">
-            <el-table 
-                v-if="lostItems.length" 
-                :data="lostItems" 
-                :default-sort="{ prop: 'Found Date', order: 'descending' }"
-                class="table-container"
-                :header-cell-style="{backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600'}"
-                :row-class-name="tableRowClassName"
-                border
-            >
+            <el-table v-if="lostItems.length" :data="paginatedData"
+                :default-sort="{ prop: 'Found Date', order: 'descending' }" class="table-container"
+                :header-cell-style="{ backgroundColor: '#f5f7fa', color: '#606266', fontWeight: '600' }"
+                :row-class-name="tableRowClassName" border>
                 <el-table-column type="index" width="50"></el-table-column>
                 <el-table-column prop="Category" label="Category" width="100"></el-table-column>
-                <el-table-column prop="Description" label="Description" min-width="180" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="Description" label="Description" min-width="180"
+                    show-overflow-tooltip></el-table-column>
                 <el-table-column prop="Found Location" label="Found Location" width="130"></el-table-column>
                 <el-table-column prop="Found Date" label="Found Date" sortable width="130">
                     <template #default="scope">
@@ -33,11 +27,7 @@
                 </el-table-column>
                 <el-table-column prop="Status" label="Status" width="130">
                     <template #default="scope">
-                        <el-tag 
-                            :type="getStatusType(scope.row.Status)" 
-                            effect="light" 
-                            class="status-tag"
-                        >
+                        <el-tag :type="getStatusType(scope.row.Status)" effect="light" class="status-tag">
                             {{ scope.row.Status }}
                         </el-tag>
                     </template>
@@ -49,7 +39,7 @@
                 </el-table-column>
                 <el-table-column prop="Claimant ID" label="Claimant" width="100"></el-table-column>
                 <el-table-column prop="Updated By" label="Updated By" width="100"></el-table-column>
-                <el-table-column label="Actions" >
+                <el-table-column label="Actions">
                     <template #default="scope">
                         <div class="actions">
                             <el-button type="primary" @click="toggleClaim(scope.row.id)" class="action-button">
@@ -59,11 +49,22 @@
                     </template>
                 </el-table-column>
             </el-table>
-            
+
             <div v-show="!lostItems.length" class="empty-state">
                 <i class="el-icon-box empty-icon"></i>
                 <p class="empty-message">No lost items available.</p>
                 <el-button type="primary" @click="toggleAdding">Add First Item</el-button>
+            </div>
+            
+            <div v-if="lostItems.length" class="pagination-container">
+                <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="lostItems.length"
+                    :page-size="pageSize"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                />
             </div>
         </div>
 
@@ -73,13 +74,22 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { fetchData } from '../controller'
 import AddLostItem from './AddLostItem.vue'
 import ClaimLostItem from './ClaimLostItem.vue'
 import { useItemStore } from '../stores/itemStore'
+import { ElPagination } from 'element-plus'
 
 const lostItems = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedData = computed(() => {
+    const startIndex = (currentPage.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    return lostItems.value.slice(startIndex, endIndex)
+})
 
 onMounted(async () => {
     await fetchItems()
@@ -124,11 +134,15 @@ function getStatusType(status) {
     }
 }
 
-function tableRowClassName({row, rowIndex}) {
+function tableRowClassName({ row, rowIndex }) {
     if (row.Status === 'Claimed') {
         return 'claimed-row'
     }
     return ''
+}
+
+function handleCurrentChange(page) {
+    currentPage.value = page
 }
 </script>
 
@@ -141,18 +155,14 @@ function tableRowClassName({row, rowIndex}) {
     background-color: var(--card-bg);
 }
 
-.page-title-container {
-    margin-bottom: 8px;
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
     padding: 0 8px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     padding-bottom: 12px;
-}
-
-.page-actions-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-    padding: 0 8px;
 }
 
 .page-title {
@@ -174,10 +184,6 @@ function tableRowClassName({row, rowIndex}) {
     align-items: center;
     gap: 8px;
 }
-
-/* Table styles moved to global CSS in App.vue */
-
-/* Table container styles moved to global CSS in App.vue */
 
 .date-cell {
     font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;

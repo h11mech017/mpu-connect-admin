@@ -1,6 +1,8 @@
 <template>
-    <NavigationBar role="Teacher" />
-    <CourseAnnouncements />
+    <div class="page-content">
+        <NavigationBar role="Teacher" />
+        <CourseAnnouncements />
+    </div>
 </template>
 
 <script setup>
